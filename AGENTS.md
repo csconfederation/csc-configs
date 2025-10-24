@@ -11,12 +11,14 @@ Follow these steps to get your local environment ready for CSC Config maintenanc
 1. **Clone the repository**
    ```bash
    git clone <repo-url> csc-configs && cd csc-configs
-    ```
+   ```
 
 2. **Make scripts executable**
 
    ```bash
    chmod +x tools/update_headers.sh
+   chmod +x tools/cfg_linter.sh
+   chmod +x tools/generate_mode_diffs.sh
    chmod +x .git/hooks/pre-commit
    ```
 
@@ -101,8 +103,10 @@ Runs automatically before each commit to keep headers current.
 **Behavior:**
 
 1. Executes `tools/update_headers.sh`
-2. Stages all modified `.cfg` files under `configs/`
-3. Prints a summary of updated files
+2. Runs `tools/cfg_linter.sh` to validate headers, footers, and required fields
+3. Runs `tools/generate_mode_diffs.sh` and stages the refreshed `modes.md`
+4. Stages all modified `.cfg` files under `configs/`
+5. Prints a summary of updated files
 
 **Install:**
 
@@ -147,12 +151,45 @@ This confirms the exact revision loaded by the running server, allowing match ad
 
 ---
 
+### 🧮 `tools/cfg_linter.sh`
+
+**Purpose:**
+Guarantees every committed configuration carries the expected metadata and structure.
+
+**Behavior:**
+
+* Confirms the standardized header and footer `say` line exist.
+* Verifies `// Path:` entries use mode-local notation (e.g., `Match/cfg/server.cfg`).
+* Flags common drift such as missing version stamps or absent GOTV echo lines.
+
+Run manually:
+
+```bash
+tools/cfg_linter.sh
+```
+
+### 📊 `tools/generate_mode_diffs.sh`
+
+**Purpose:**
+Produces `modes.md`, a human-readable diff of key settings across Match, Scrim, Combine, and Preseason.
+
+**Behavior:**
+
+* Compares core server/GOTV values per mode.
+* Rewrites `modes.md` so reviewers can audit intentional differences quickly.
+
+Run manually:
+
+```bash
+tools/generate_mode_diffs.sh
+```
+
+---
+
 ## ⚙️ Planned Automations
 
 | Task                       | Description                                           | Status     |
 | -------------------------- | ----------------------------------------------------- | ---------- |
-| **Mode diff tool**         | Highlight per-mode differences for audit              | 🔜 Planned |
-| **Config schema linter**   | Warn if missing header, echo line, or outdated format | 🔜 Planned |
 
 ---
 
@@ -174,6 +211,8 @@ $ tools/update_headers.sh
 ```bash
 $ git commit -am "Update scrim GOTV settings"
 [pre-commit] Stamping headers in configs/...
+[pre-commit] Linting configs...
+[pre-commit] Generating mode diffs (modes.md)...
 [pre-commit] Auto-stamped header changes have been staged.
 [main f5a42a2] Update scrim GOTV settings
  4 files changed, 12 insertions(+), 12 deletions(-)
@@ -186,11 +225,11 @@ $ git commit -am "Update scrim GOTV settings"
 | Component                 | Function                                | Trigger            |
 | ------------------------- | --------------------------------------- | ------------------ |
 | `tools/update_headers.sh` | Stamps config headers with version/date | Manual or via hook |
-| `.git/hooks/pre-commit`   | Runs header updater automatically       | Before each commit |
+| `tools/cfg_linter.sh`     | Validates schema and required metadata  | Manual or via hook |
+| `tools/generate_mode_diffs.sh` | Regenerates `modes.md` diff overview        | Manual or via hook |
+| `.git/hooks/pre-commit`   | Runs stamp, lint, and diff automations  | Before each commit |
 | Config footer echo        | Prints commit/date in-game              | At runtime         |
-| Warmup and live configs   | Ensure in-server traceability           | During execution   |
 
 ---
 
 CSC Configs automation ensures every deployed configuration can be traced, verified, and reproduced precisely — maintaining parity across all CSC servers and event environments.
-
