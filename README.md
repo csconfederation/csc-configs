@@ -9,7 +9,6 @@ All configuration files follow a unified, documented structure and are automatic
 ## 📂 Repository Structure
 
 ```
-
 configs/
 ├── Match/
 │   └── cfg/
@@ -17,30 +16,36 @@ configs/
 │       ├── server.cfg
 │       └── MatchZy/
 │           ├── config.cfg
-│           └── live_override.cfg
+│           ├── live_override.cfg
+│           └── warmup.cfg
 ├── Scrim/
 │   └── cfg/
 │       ├── gamemode_competitive_server.cfg
 │       ├── server.cfg
 │       └── MatchZy/
 │           ├── config.cfg
-│           └── live_override.cfg
+│           ├── live_override.cfg
+│           └── warmup.cfg
 ├── Combine/
 │   └── cfg/
 │       ├── gamemode_competitive_server.cfg
 │       ├── server.cfg
 │       └── MatchZy/
 │           ├── config.cfg
-│           └── live_override.cfg
+│           ├── live_override.cfg
+│           └── warmup.cfg
 └── Preseason/
-│   └── cfg/
-│       ├── gamemode_competitive_server.cfg
-│       ├── server.cfg
-│       └── MatchZy/
-│           ├── config.cfg
-│           └── live_override.cfg
+    └── cfg/
+        ├── gamemode_competitive_server.cfg
+        ├── server.cfg
+        └── MatchZy/
+            ├── config.cfg
+            ├── live_override.cfg
+            └── warmup.cfg
 tools/
 ├── update_headers.sh
+├── cfg_linter.sh
+└── generate_mode_diffs.sh
 ```
 
 Each mode is self-contained with its own config chain and MatchZy files.
@@ -53,7 +58,7 @@ Each mode is self-contained with its own config chain and MatchZy files.
 - **`MatchZy/config.cfg`** — *automatically executed* when the MatchZy plugin loads.
 - **`gamemode_competitive_server.cfg`** — executed by the server when the **gamemode** is set (competitive).
 - **`MatchZy/live_override.cfg`** — executed **after all players ready up** and MatchZy applies its live settings.
-- **`MatchZy/warmup.cfg`** — executed when the plugin loads for warmup (we’ll add this file next).
+- **`MatchZy/warmup.cfg`** — executed when the plugin loads for warmup.
 
 > Each file includes a standardized header and a final `say` line for on-server version verification.
 
@@ -66,11 +71,11 @@ All configuration files begin with a standardized header:
 ```cfg
 // =========================================================
 // CSC Config File
-// Path: configs/Match/cfg/server.cfg
+// Path: Match/cfg/server.cfg
 // Version: <commit hash>
 // Last Updated: <date>
 // =========================================================
-````
+```
 
 `<commit hash>` and `<date>` are auto-stamped by our script/hook.
 
@@ -107,13 +112,24 @@ SKIP_HEADER_STAMP=1 git commit -m "skip stamping this time"
 ### `tools/update_headers.sh`
 
 * Updates `// Path`, `// Version`, and `// Last Updated` in every `configs/**/*.cfg`.
+* Trims leading `configs/` from paths to match in-game expectations.
 * Prepends a header if missing.
 * Portable across Linux/macOS/WSL.
 
 ### `.git/hooks/pre-commit`
 
-* Calls `tools/update_headers.sh`.
-* Auto-stages modified config files under `configs/`.
+* Calls `tools/update_headers.sh`, `tools/cfg_linter.sh`, and `tools/generate_mode_diffs.sh`.
+* Auto-stages modified config files under `configs/` and regenerates `modes.md`.
+
+### `tools/cfg_linter.sh`
+
+* Validates header presence, footer `say` lines, and field expectations such as `// Path:`.
+* Fails fast when configs drift from the documented structure.
+
+### `tools/generate_mode_diffs.sh`
+
+* Produces `modes.md`, a tabular comparison of per-mode configuration differences.
+* Keeps auditors informed of intentional deltas between Match, Scrim, Combine, and Preseason.
 
 ---
 
@@ -145,17 +161,16 @@ These messages appear in console/GOTV logs and confirm the exact commit that was
    git clone <repo-url> csc-configs && cd csc-configs
    ```
 
-2. **Stamp headers (once or anytime)**
+2. **Make helper scripts executable**
 
    ```bash
-   chmod +x tools/update_headers.sh
-   tools/update_headers.sh
+   chmod +x tools/*.sh .git/hooks/pre-commit
    ```
 
-3. **(Optional) Enable auto-stamping on commit**
+3. **Stamp headers (once or anytime)**
 
    ```bash
-   chmod +x .git/hooks/pre-commit
+   tools/update_headers.sh
    ```
 
 4. **Edit configs** under `configs/<Mode>/cfg/…`
@@ -169,5 +184,3 @@ These messages appear in console/GOTV logs and confirm the exact commit that was
    ```
 
 6. **Deploy** the `configs/<Mode>/cfg/` files to the server.
-
-
