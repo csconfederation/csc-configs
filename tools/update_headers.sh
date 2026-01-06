@@ -16,6 +16,15 @@ sedi() {
   fi
 }
 
+# Check if file should have a footer (all except MatchZy/config.cfg)
+needs_footer() {
+  local file="$1"
+  case "$file" in
+    */MatchZy/config.cfg) return 1 ;;
+    *) return 0 ;;
+  esac
+}
+
 # Ensure a standard header exists; if missing, prepend one.
 ensure_header() {
   local file="$1"
@@ -29,13 +38,32 @@ ensure_header() {
       echo "// ========================================================="
       echo "// CSC Config File"
       echo "// Path: ${rel_path}"
-      echo "// Version: <commit hash>"
-      echo "// Last Updated: <date>"
+      echo "// Version: ${VERSION}"
+      echo "// Last Updated: ${DATE}"
       echo "// ========================================================="
       echo
       cat "$file"
     } > "$tmp"
     mv "$tmp" "$file"
+  fi
+}
+
+# Ensure a standard footer exists; if missing, append one.
+ensure_footer() {
+  local file="$1"
+  local base="$(basename "$file")"
+
+  # Skip files that don't need footers
+  needs_footer "$file" || return 0
+
+  # Check if standard footer pattern exists
+  if ! grep -qE "^say \"> CSC Config Loaded \| ${base} \|" "$file"; then
+    # Append footer with blank line separator
+    {
+      echo
+      echo "// End of Config"
+      echo "say \"> CSC Config Loaded | ${base} | ${VERSION} | ${DATE} <\""
+    } >> "$file"
   fi
 }
 
@@ -46,16 +74,31 @@ stamp_header() {
   rel_path="${rel_path#configs/}"
 
   # Replace the three lines if present in the first ~12 lines
-  # (keeps diffs tiny; avoids rewriting full headers)
   sedi "1,12s|^// Path: .*|// Path: ${rel_path}|g" "$file"
   sedi "1,12s|^// Version: .*|// Version: ${VERSION}|g" "$file"
   sedi "1,12s|^// Last Updated: .*|// Last Updated: ${DATE}|g" "$file"
 }
 
+# Stamp footer say lines with version info
+stamp_footer() {
+  local file="$1"
+  local base="$(basename "$file")"
+
+  # Skip files that don't need footers
+  needs_footer "$file" || return 0
+
+  # Standard format: say "> CSC Config Loaded | <filename> | <hash> | <date> <"
+  # Matches any hash/date or placeholder text between the pipes
+  # Using # as delimiter since | appears in the pattern
+  sedi "s#say \"> CSC Config Loaded | ${base} | [^|]* | [^<]* <\"#say \"> CSC Config Loaded | ${base} | ${VERSION} | ${DATE} <\"#g" "$file"
+}
+
 # Walk all cfgs under configs/
 while IFS= read -r -d '' f; do
   ensure_header "$f"
+  ensure_footer "$f"
   stamp_header "$f"
+  stamp_footer "$f"
 done < <(find configs -type f -name '*.cfg' -print0)
 
-echo "[update_headers] Updated headers for all configs/*.cfg with Version=${VERSION} Date=${DATE}"
+echo "[update_headers] Updated headers/footers for all configs/*.cfg with Version=${VERSION} Date=${DATE}"

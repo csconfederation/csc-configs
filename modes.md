@@ -22,12 +22,6 @@ _Generated automatically. Shows only settings where at least one mode differs._
 |---|---|---|---|---|
 | `matchzy_playout_enabled_default` | false | true | false | false |
 
-## cfg/MatchZy/live_override.cfg
-
-| Setting | Match | Scrim | Combine | Preseason |
-|---|---|---|---|---|
-| `say` | "> Match is Live <" | "> Scrim is Live <" | "> Scrim is Live <" | "> Scrim is Live <" |
-
 ## cfg/MatchZy/warmup.cfg
 
 | Setting | Match | Scrim | Combine | Preseason |
