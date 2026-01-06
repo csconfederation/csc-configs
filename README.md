@@ -20,32 +20,18 @@ configs/
 │           └── warmup.cfg
 ├── Scrim/
 │   └── cfg/
-│       ├── gamemode_competitive_server.cfg
-│       ├── server.cfg
-│       └── MatchZy/
-│           ├── config.cfg
-│           ├── live_override.cfg
-│           └── warmup.cfg
+│       └── ...
 ├── Combine/
 │   └── cfg/
-│       ├── gamemode_competitive_server.cfg
-│       ├── server.cfg
-│       └── MatchZy/
-│           ├── config.cfg
-│           ├── live_override.cfg
-│           └── warmup.cfg
+│       └── ...
 └── Preseason/
     └── cfg/
-        ├── gamemode_competitive_server.cfg
-        ├── server.cfg
-        └── MatchZy/
-            ├── config.cfg
-            ├── live_override.cfg
-            └── warmup.cfg
+        └── ...
 tools/
 ├── update_headers.sh
 ├── cfg_linter.sh
-└── generate_mode_diffs.sh
+├── generate_mode_diffs.sh
+└── pre-commit.hook
 ```
 
 Each mode is self-contained with its own config chain and MatchZy files.
@@ -60,7 +46,7 @@ Each mode is self-contained with its own config chain and MatchZy files.
 - **`MatchZy/live_override.cfg`** — executed **after all players ready up** and MatchZy applies its live settings.
 - **`MatchZy/warmup.cfg`** — executed when the plugin loads for warmup.
 
-> Each file includes a standardized header and a final `say` line for on-server version verification.
+> Each Counter-Strike config includes a standardized header and a final `say` line for on-server version verification, except `MatchZy/config.cfg`.
 
 ---
 
@@ -77,11 +63,60 @@ All configuration files begin with a standardized header:
 // =========================================================
 ```
 
-`<commit hash>` and `<date>` are auto-stamped by our script/hook.
+`<commit hash>` and `<date>` are auto-stamped by `tools/update_headers.sh`.
 
 ---
 
-## 🔄 Automated Header Updates
+## 🔖 Footer Verification
+
+Counter-Strike config files end with a `say` line that echoes version info to the server console (excluding `MatchZy/config.cfg`):
+
+```cfg
+say "> CSC Config Loaded | server.cfg | f5a42a2 | 2025-10-23 <"
+```
+
+This is also auto-stamped, allowing match admins to verify deployed versions in console or GOTV logs.
+
+---
+
+## 🚀 Quick Start
+
+1. **Clone**
+   ```bash
+   git clone <repo-url> csc-configs && cd csc-configs
+   ```
+
+2. **Run setup script**
+   ```bash
+   ./setup.sh
+   ```
+
+   Or manually:
+   ```bash
+   chmod +x tools/*.sh
+   cp tools/pre-commit.hook .git/hooks/pre-commit
+   chmod +x .git/hooks/pre-commit
+   ```
+
+3. **Stamp headers (once or anytime)**
+   ```bash
+   tools/update_headers.sh
+   ```
+
+4. **Edit configs** under `configs/<Mode>/cfg/…`
+
+5. **Commit**
+   ```bash
+   git add -A
+   git commit -m "Update Match configs"
+   git push
+   ```
+
+6. **Deploy** the `configs/<Mode>/cfg/` files to the server.
+
+---
+
+## 🔄 Automated Header & Footer Updates
 
 All `.cfg` files under `configs/` are version-stamped automatically.
 
@@ -93,9 +128,10 @@ tools/update_headers.sh
 
 ### Pre-commit hook
 
-Installs a hook that stamps and stages any changed config headers before every commit:
+The hook stamps headers/footers, lints configs, and regenerates `modes.md` before every commit:
 
 ```bash
+cp tools/pre-commit.hook .git/hooks/pre-commit
 chmod +x .git/hooks/pre-commit
 ```
 
@@ -109,78 +145,73 @@ SKIP_HEADER_STAMP=1 git commit -m "skip stamping this time"
 
 ## 🧰 Script Reference
 
-### `tools/update_headers.sh`
+| Script | Purpose |
+|--------|---------|
+| `tools/update_headers.sh` | Stamps headers and footers; adds missing headers/footers automatically |
+| `tools/cfg_linter.sh` | Validates headers, footers, paths, version consistency, and flags legacy references |
+| `tools/generate_mode_diffs.sh` | Produces `modes.md`, a tabular comparison of per-mode configuration differences |
+| `tools/pre-commit.hook` | Pre-commit hook template — copy to `.git/hooks/pre-commit` |
+| `setup.sh` | One-command developer environment setup |
 
-* Updates `// Path`, `// Version`, and `// Last Updated` in every `configs/**/*.cfg`.
-* Trims leading `configs/` from paths to match in-game expectations.
-* Prepends a header if missing.
-* Portable across Linux/macOS/WSL.
+See [AGENTS.md](AGENTS.md) for detailed documentation of each script's behavior.
 
-### `.git/hooks/pre-commit`
+---
 
-* Calls `tools/update_headers.sh`, `tools/cfg_linter.sh`, and `tools/generate_mode_diffs.sh`.
-* Auto-stages modified config files under `configs/` and regenerates `modes.md`.
+## 🔧 Editor Configuration
 
-### `tools/cfg_linter.sh`
-
-* Validates header presence, footer `say` lines, and field expectations such as `// Path:`.
-* Fails fast when configs drift from the documented structure.
-
-### `tools/generate_mode_diffs.sh`
-
-* Produces `modes.md`, a tabular comparison of per-mode configuration differences.
-* Keeps auditors informed of intentional deltas between Match, Scrim, Combine, and Preseason.
+This repo includes an `.editorconfig` file for consistent formatting across editors. Most editors support it natively or via plugin — see [editorconfig.org](https://editorconfig.org) for details.
 
 ---
 
 ## ✅ Version Verification In-Game
 
-Every config ends with a line like:
+Every Counter-Strike config (excluding `MatchZy/config.cfg`) ends with a line like:
 
 ```cfg
-say "> CSC Config Loaded | server.cfg | <commit hash> | <date> <"
+say "> CSC Config Loaded | server.cfg | f5a42a2 | 2025-10-23 <"
 ```
 
 These messages appear in console/GOTV logs and confirm the exact commit that was applied.
 
 ---
 
-## ⚙️ Deployment Notes
+## ⚙️ Deployment
 
-* Copy the desired mode folder from `configs/<Mode>/cfg/` into the server’s cfg path.
-* `server.cfg` and MatchZy’s `config.cfg` will auto-execute on load; `gamemode_competitive_server.cfg` executes when the server sets competitive mode; `MatchZy/live_override.cfg` executes when players ready up.
-* The stamped **Version** and **Last Updated** lines reflect the deployed commit.
+1. Copy `configs/<Mode>/cfg/` to the server's `csgo/cfg/` directory
+2. Verify in console — look for the footer echo confirming hash and date
+
+**Execution behavior:**
+* `server.cfg` and MatchZy's `config.cfg` auto-execute on load
+* `gamemode_competitive_server.cfg` executes when competitive mode is set
+* `MatchZy/live_override.cfg` executes when players ready up
+
+The stamped **Version** and **Last Updated** lines in both headers and footers reflect the deployed commit.
 
 ---
 
-## 🚀 Quick Start
+## 🏷️ Versioning
 
-1. **Clone**
+Configs are stamped with **commit hashes** for exact traceability. Human-readable versions use **Git tags** following the schema `S{SEASON}.{REVISION}`:
 
-   ```bash
-   git clone <repo-url> csc-configs && cd csc-configs
-   ```
+- `S19.0` — First release of Season 19
+- `S19.1` — Second release of Season 19
+- `S20.0` — First release of Season 20
 
-2. **Make helper scripts executable**
+```bash
+# Tag a release
+git tag -a S19.0 -m "Season 19.0 release"
+git push origin S19.0
 
-   ```bash
-   chmod +x tools/*.sh .git/hooks/pre-commit
-   ```
+# Check which release a hash belongs to
+git tag --contains f5a42a2
+```
 
-3. **Stamp headers (once or anytime)**
+Plugin versions (MatchZy, Metamod:Source, CounterStrikeSharp) are tracked in [VERSIONS.md](VERSIONS.md) — both current versions and historical versions for each release.
 
-   ```bash
-   tools/update_headers.sh
-   ```
+---
 
-4. **Edit configs** under `configs/<Mode>/cfg/…`
+## 📚 Additional Documentation
 
-5. **Commit**
-
-   ```bash
-   git add -A
-   git commit -m "Update Match configs"
-   git push
-   ```
-
-6. **Deploy** the `configs/<Mode>/cfg/` files to the server.
+* [AGENTS.md](AGENTS.md) — Detailed automation and script documentation
+* [VERSIONS.md](VERSIONS.md) — Release history, plugin dependencies, and tagging workflow
+* [modes.md](modes.md) — Auto-generated diff of settings across modes

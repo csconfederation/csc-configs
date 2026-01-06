@@ -9,16 +9,15 @@ RED=$'\e[31m'; GREEN=$'\e[32m'; YELLOW=$'\e[33m'; RESET=$'\e[0m'
 failures=0
 offenders=()
 
-# Files that SHOULD have a footer echo
-# (MatchZy/config.cfg is allowed to have it or not; live_override.cfg should have it.)
-# Files that SHOULD have a footer echo
-require_footer_echo() {
+# Files that MUST have a footer echo
+# Only config.cfg is excluded (MatchZy plugin config, no say output needed)
+needs_footer() {
   local rel="$1"
   case "$rel" in
-    */cfg/server.cfg|*/cfg/gamemode_competitive_server.cfg|*/cfg/MatchZy/warmup.cfg)
-      return 0 ;;  # enforce
+    */cfg/MatchZy/config.cfg)
+      return 1 ;;  # skip - plugin config, no console output
     *)
-      return 1 ;;  # skip check
+      return 0 ;;  # enforce on all other .cfg files
   esac
 }
 
@@ -61,11 +60,26 @@ check_file() {
     failures=$((failures+1)); offenders+=("$rel")
   fi
 
-  # Footer echo must include the actual filename (for applicable files)
-  if require_footer_echo "$rel"; then
-    if ! tail -n 15 "$f" | grep -qE "^say \"> CSC Config Loaded \| ${base//\//\\/} \|"; then
-      echo "${RED}[lint] Footer 'say' must include filename:${RESET} $rel  (expected to reference '$base')"
+  # Footer checks (only for files that need footers)
+  if needs_footer "$rel"; then
+    # Footer echo must use standard format with filename
+    # Expected: say "> CSC Config Loaded | <filename> | <hash> | <date> <"
+    if ! tail -n 5 "$f" | grep -qE "^say \"> CSC Config Loaded \| ${base} \|"; then
+      echo "${RED}[lint] Missing or malformed footer 'say' line:${RESET} $rel"
+      echo "       Expected: say \"> CSC Config Loaded | ${base} | <hash> | <date> <\""
       failures=$((failures+1)); offenders+=("$rel")
+    else
+      # Header/footer version consistency check
+      header_version="$(head -n 12 "$f" | grep -E '^// Version:' | sed 's|^// Version:[[:space:]]*||')"
+      # Extract version from footer: say "> CSC Config Loaded | file.cfg | VERSION | DATE <"
+      footer_line="$(tail -n 5 "$f" | grep -E "^say \"> CSC Config Loaded \| ${base} \|" | head -n 1)"
+      footer_version="$(echo "$footer_line" | sed -E "s|.*\| ${base} \| ([^ |]+) \|.*|\1|")"
+
+      if [[ -n "$header_version" && -n "$footer_version" && "$header_version" != "$footer_version" ]]; then
+        echo "${RED}[lint] Header/footer version mismatch:${RESET} $rel"
+        echo "       Header: ${header_version}  Footer: ${footer_version}"
+        failures=$((failures+1)); offenders+=("$rel")
+      fi
     fi
   fi
 }
@@ -76,7 +90,7 @@ done < <(find configs -type f -name '*.cfg' -print0)
 
 if (( failures > 0 )); then
   echo
-  echo "${RED}[lint] ${failures} problem(s) found.${RESET}"
+  echo "${RED}[lint] ${failures} problem(s) found in ${#offenders[@]} file(s).${RESET}"
   exit 1
 fi
 

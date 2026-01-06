@@ -1,0 +1,20 @@
+# CSC Config Repository Git Attributes
+# Ensures consistent line endings and diff behavior across platforms.
+
+# Default: auto-detect and normalize
+* text=auto
+
+# Shell scripts: always LF
+*.sh text eol=lf
+
+# Config files: always LF (servers typically run Linux)
+*.cfg text eol=lf
+
+# Hook template: always LF
+*.hook text eol=lf
+
+# Markdown: auto (platform-native)
+*.md text
+
+# Generated file - mark for merge conflict awareness
+modes.md merge=union

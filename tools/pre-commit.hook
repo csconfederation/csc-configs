@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# CSC Config Pre-Commit Hook
+# Automatically stamps headers, lints configs, and generates mode diffs.
+# Install: cp tools/pre-commit.hook .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+
+ROOT="$(git rev-parse --show-toplevel)"
+cd "$ROOT"
+
+# Allow skipping for temporary commits
+if [[ "${SKIP_HEADER_STAMP:-}" == "1" ]]; then
+  echo "[pre-commit] SKIP_HEADER_STAMP=1, skipping automation."
+  exit 0
+fi
+
+# Check if any configs are staged
+if ! git diff --cached --name-only | grep -q '^configs/.*\.cfg$'; then
+  # No config changes staged, skip automation
+  exit 0
+fi
+
+echo "[pre-commit] Stamping headers and footers in configs/..."
+tools/update_headers.sh
+
+echo "[pre-commit] Linting configs..."
+if ! tools/cfg_linter.sh; then
+  echo "[pre-commit] Linting failed. Commit aborted."
+  exit 1
+fi
+
+echo "[pre-commit] Generating mode diffs (modes.md)..."
+tools/generate_mode_diffs.sh
+
+# Stage all modified configs and modes.md
+git add configs/**/*.cfg 2>/dev/null || true
+git add modes.md 2>/dev/null || true
+
+echo "[pre-commit] Auto-stamped header changes have been staged."
