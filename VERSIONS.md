@@ -30,9 +30,9 @@ All modes require the same plugin versions.
 
 | Plugin | Version | Required | Notes |
 |--------|---------|----------|-------|
-| MatchZy | x.x.x | Yes | Core match management |
-| Metamod:Source | x.x.x | Yes | Plugin framework |
-| CounterStrikeSharp | x.x.x | Yes | MatchZy dependency |
+| MatchZy | [0.8.15](https://github.com/shobhit-pathak/MatchZy/releases/tag/0.8.15) | Yes | Core match management |
+| Metamod:Source | [1375](https://github.com/alliedmodders/metamod-source/tree/d6476a4ec75f1775675a42c5614c01e) | Yes | Plugin framework |
+| CounterStrikeSharp | [1.0.355](https://github.com/roflmuffin/CounterStrikeSharp/releases/tag/v1.0.355) | Yes | MatchZy dependency |
 
 ---
 
@@ -52,6 +52,16 @@ Template for new entries:
 - Description of change
 - **Breaking:** Description of breaking change (if any)
 -->
+
+### S19.0 — 2026-01-06
+
+**Plugins:**
+- MatchZy 0.8.15
+- Metamod:Source 1375
+- CounterStrikeSharp 1.0.355
+
+**Changes:**
+- Start Season 19.0 release line
 
 ### S0.0 — YYYY-MM-DD
 
