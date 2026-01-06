@@ -52,19 +52,48 @@ ensure_header() {
 ensure_footer() {
   local file="$1"
   local base="$(basename "$file")"
+  local rel_path="${file#./}"
+  rel_path="${rel_path#configs/}"
+  local mode="${rel_path%%/*}"
 
   # Skip files that don't need footers
   needs_footer "$file" || return 0
 
   # Check if standard footer pattern exists
-  if ! grep -qE "^say \"> CSC Config Loaded \| ${base} \|" "$file"; then
+  if ! grep -qE "^say \"> CSC ${mode} Config Loaded \| ${base} \|" "$file"; then
     # Append footer with blank line separator
     {
       echo
       echo "// End of Config"
-      echo "say \"> CSC Config Loaded | ${base} | ${VERSION} | ${DATE} <\""
+      echo "say \"> CSC ${mode} Config Loaded | ${base} | ${VERSION} | ${DATE} <\""
     } >> "$file"
   fi
+}
+
+# Remove any existing footer blocks so we can re-stamp a single one.
+normalize_footer() {
+  local file="$1"
+  local base="$(basename "$file")"
+
+  # Skip files that don't need footers
+  needs_footer "$file" || return 0
+
+  local base_regex
+  base_regex="$(printf '%s' "$base" | sed -e 's/[][\\.^$*+?(){}|]/\\&/g')"
+  local tmp
+  tmp="$(mktemp)"
+
+  awk -v base_re="$base_regex" '
+    $0 == "// End of Config" { next }
+    $0 ~ ("^say \"> CSC .* Config Loaded \\| " base_re " \\| .* <\"$") { next }
+    { lines[NR] = $0 }
+    $0 ~ /[^[:space:]]/ { last = NR }
+    END {
+      for (i = 1; i <= last; i++) print lines[i]
+    }
+  ' "$file" > "$tmp"
+
+  mv "$tmp" "$file"
 }
 
 # Stamp the three header lines (Path, Version, Last Updated)
@@ -83,19 +112,22 @@ stamp_header() {
 stamp_footer() {
   local file="$1"
   local base="$(basename "$file")"
+  local rel_path="${file#./}"
+  rel_path="${rel_path#configs/}"
+  local mode="${rel_path%%/*}"
 
   # Skip files that don't need footers
   needs_footer "$file" || return 0
 
-  # Standard format: say "> CSC Config Loaded | <filename> | <hash> | <date> <"
-  # Matches any hash/date or placeholder text between the pipes
-  # Using # as delimiter since | appears in the pattern
-  sedi "s#say \"> CSC Config Loaded | ${base} | [^|]* | [^<]* <\"#say \"> CSC Config Loaded | ${base} | ${VERSION} | ${DATE} <\"#g" "$file"
+  # Mode-specific footer for all config files that require footers.
+  # Matches any prior CSC footer format for this filename.
+  sedi -E "s#say \"> CSC ([^|]* )?Config Loaded \\| ${base} \\| .* <\"#say \"> CSC ${mode} Config Loaded | ${base} | ${VERSION} | ${DATE} <\"#g" "$file"
 }
 
 # Walk all cfgs under configs/
 while IFS= read -r -d '' f; do
   ensure_header "$f"
+  normalize_footer "$f"
   ensure_footer "$f"
   stamp_header "$f"
   stamp_footer "$f"
