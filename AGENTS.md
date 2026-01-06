@@ -204,7 +204,7 @@ Every config file begins with a six-line header block for traceability:
 
 ## 🔖 Footer Verification
 
-Counter-Strike config files end with a `say` line for in-game verification (excluding `MatchZy/config.cfg`):
+Config files end with a `say` line for in-game verification:
 
 ```cfg
 say "> CSC Config Loaded | server.cfg | f5a42a2 | 2025-10-23 <"
@@ -212,7 +212,7 @@ say "> CSC Config Loaded | server.cfg | f5a42a2 | 2025-10-23 <"
 
 The `update_headers.sh` script automatically stamps these footer lines with the current commit hash and date. This allows match admins and developers to verify the exact deployed version directly in the server console or GOTV logs.
 
-The linter validates that the footer `say` line exists and references the correct filename (excluding `MatchZy/config.cfg`).
+The linter validates that the footer `say` line exists and references the correct filename.
 
 ---
 
@@ -287,9 +287,28 @@ CSC Configs uses a hybrid versioning approach:
 Tags follow the format `S{SEASON}.{REVISION}`:
 
 - `S{SEASON}` — CSC season number (e.g., `S12` = Season 12)
-- `.{REVISION}` — Incremental release within the season, starting at 0
+- `.{REVISION}` — Incremental release within the season, starting at 1
 
-Examples: `S19.0` (first release of Season 19), `S19.1` (second release), `S20.0` (first release of Season 20)
+Examples: `S12.1` (first release of Season 12), `S12.2` (second release), `S13.1` (first release of Season 13)
+
+### Hash Timing Behavior
+
+The stamped hash is always the **parent commit's hash**, not the commit that contains the stamped files. This is inherent to how Git works:
+
+1. You're on commit `abc123`
+2. You edit configs and run `git commit`
+3. Pre-commit hook stamps files with `abc123` (current HEAD at that moment)
+4. Commit is created → new hash `def456`
+5. Files in `def456` contain hash `abc123`
+
+**This is expected behavior.** The hash answers: "What was the repo state when these configs were last touched?"
+
+In practice this doesn't matter because:
+
+- The behavior is consistent and predictable (always one behind)
+- Git tags point to the actual commit — use tags for release verification
+- `git log --oneline configs/` shows the true commit history
+- `git tag --contains <hash>` still returns the correct release
 
 ### Why commit hashes in configs?
 
