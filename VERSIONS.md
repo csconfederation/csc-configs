@@ -31,8 +31,8 @@ All modes require the same plugin versions.
 | Plugin | Version | Required | Notes |
 |--------|---------|----------|-------|
 | MatchZy | [0.8.15](https://github.com/shobhit-pathak/MatchZy/releases/tag/0.8.15) | Yes | Core match management |
-| Metamod:Source | [1375](https://github.com/alliedmodders/metamod-source/tree/d6476a4ec75f1775675a42c5614c01e) | Yes | Plugin framework |
-| CounterStrikeSharp | [1.0.355](https://github.com/roflmuffin/CounterStrikeSharp/releases/tag/v1.0.355) | Yes | MatchZy dependency |
+| Metamod:Source | [1383](https://github.com/alliedmodders/metamod-source/tree/11f7b87f42086acaf1045084607159a) | Yes | Plugin framework |
+| CounterStrikeSharp | [1.0.362](https://github.com/roflmuffin/CounterStrikeSharp/releases/tag/v1.0.362) | Yes | MatchZy dependency |
 
 ---
 
