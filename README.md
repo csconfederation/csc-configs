@@ -191,18 +191,27 @@ The stamped **Version** and **Last Updated** lines in both headers and footers r
 
 ## 🏷️ Versioning
 
-Configs are stamped with **commit hashes** for exact traceability. Human-readable versions use **Git tags** following the schema `S{SEASON}.{REVISION}`:
+Configs are stamped with **commit hashes** for exact traceability. Human-readable releases use immutable **season release tags**:
 
-- `S19.0` — First release of Season 19
-- `S19.1` — Second release of Season 19
-- `S20.0` — First release of Season 20
+- `s19.0` — first Season 19 release
+- `s19.1` — second Season 19 release
+- `s20.0` — first Season 20 release
+
+Operational/reference tags:
+- `live` — mutable deployment pointer used by Core when pulling configs
+- `s19` — season reference tag (historical helper; not the deployment pointer)
 
 ```bash
-# Tag a release
-git tag -a S19.0 -m "Season 19.0 release"
-git push origin S19.0
+# Create immutable release tag + release
+git tag -a s19.1 -m "Season 19.1 release"
+git push origin s19.1
+gh release create s19.1 --title "s19.1" --notes "Season 19.1 config release"
 
-# Check which release a hash belongs to
+# Move live pointer to selected release
+git tag -fa live -m "Promote s19.1 to live" s19.1
+git push origin refs/tags/live --force
+
+# Check which release tag contains a commit
 git tag --contains f5a42a2
 ```
 

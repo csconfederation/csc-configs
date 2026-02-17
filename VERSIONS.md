@@ -8,19 +8,26 @@ Config files are stamped with **commit hashes** for exact traceability. Human-re
 
 ## Tag Schema
 
-Tags follow the format `S{SEASON}.{REVISION}`:
+Release tags follow the format `s{season}.{revision}`:
 
 | Component | Description | Example |
 |-----------|-------------|---------|
-| `S{SEASON}` | CSC season number | `S12` = Season 12 |
+| `s{season}` | CSC season number | `s12` = Season 12 |
 | `.{REVISION}` | Incremental release within the season, starting at 0 | `.0`, `.1`, `.2` |
 
 **Examples:**
-- `S19.0` — First release of Season 19
-- `S19.1` — Second release of Season 19 (bug fix, setting tweak, etc.)
-- `S20.0` — First release of Season 20
+- `s19.0` — First release of Season 19
+- `s19.1` — Second release of Season 19 (bug fix, setting tweak, etc.)
+- `s20.0` — First release of Season 20
 
 Reset revision to 0 at the start of each season.
+
+### Reference Tags
+
+- `live` (mutable): deployment pointer used by CSC-Core when pulling configs.
+- `s19` (mutable by maintainer choice): season reference tag for historical grouping.
+
+Only `s{season}.{revision}` tags are release tags. `live` and `s19` are operational/reference tags.
 
 ---
 
@@ -41,7 +48,7 @@ All modes require the same plugin versions.
 <!--
 Template for new entries:
 
-### S{SEASON}.{REVISION} — YYYY-MM-DD
+### s{season}.{revision} — YYYY-MM-DD
 
 **Plugins:**
 - MatchZy x.x.x
@@ -53,7 +60,17 @@ Template for new entries:
 - **Breaking:** Description of breaking change (if any)
 -->
 
-### S19.0 — 2026-01-06
+### s19.1 — 2026-02-17
+
+**Plugins:**
+- MatchZy 0.8.15
+- Metamod:Source 1383
+- CounterStrikeSharp 1.0.362
+
+**Changes:**
+- Establish release/ref strategy: immutable `s19.x` releases, `live` deployment pointer, `s19` season reference.
+
+### s19.0 — 2026-01-06
 
 **Plugins:**
 - MatchZy 0.8.15
@@ -63,7 +80,7 @@ Template for new entries:
 **Changes:**
 - Start Season 19.0 release line
 
-### S0.0 — YYYY-MM-DD
+### s0.0 — YYYY-MM-DD
 
 **Plugins:**
 - MatchZy x.x.x
@@ -81,15 +98,22 @@ When ready to mark a release:
 
 ```bash
 # Tag the current commit
-git tag -a S19.0 -m "Season 19.0 - description"
+git tag -a s19.2 -m "Season 19.2 - description"
 
 # Push the tag
-git push origin S19.0
+git push origin s19.2
+
+# Create GitHub release from the release tag
+gh release create s19.2 --title "s19.2" --notes "Season 19.2 config release"
+
+# Promote to live after validation
+git tag -fa live -m "Promote s19.2 to live" s19.2
+git push origin refs/tags/live --force
 ```
 
 To see all releases:
 ```bash
-git tag -l "S*"
+git tag -l "s*.*"
 ```
 
 To check which release a deployed hash belongs to:
@@ -99,5 +123,5 @@ git tag --contains <hash>
 
 To see what's changed since last release:
 ```bash
-git log S19.0..HEAD --oneline
+git log s19.1..HEAD --oneline
 ```

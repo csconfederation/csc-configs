@@ -279,17 +279,25 @@ CSC Configs uses a hybrid versioning approach:
 | Component | Format | Purpose |
 |-----------|--------|---------|
 | Config stamps | Commit hash (`f5a42a2`) | Exact traceability in logs |
-| Git tags | `S{SEASON}.{REVISION}` | Human-readable release names |
+| Release tags | `s{season}.{revision}` | Human-readable immutable releases |
+| Reference tags | `live`, `s19` | Deployment/reference pointers |
 | VERSIONS.md | Changelog + plugin deps | Documentation and history |
 
-### Tag Schema
+### Release Tag Schema
 
-Tags follow the format `S{SEASON}.{REVISION}`:
+Release tags follow the format `s{season}.{revision}`:
 
-- `S{SEASON}` — CSC season number (e.g., `S12` = Season 12)
-- `.{REVISION}` — Incremental release within the season, starting at 1
+- `s{season}` — CSC season number (e.g., `s12` = Season 12)
+- `.{REVISION}` — Incremental release within the season, starting at 0
 
-Examples: `S12.1` (first release of Season 12), `S12.2` (second release), `S13.1` (first release of Season 13)
+Examples: `s12.1` (first release of Season 12), `s12.2` (second release), `s13.1` (first release of Season 13)
+
+### Reference Tags
+
+- `live` (mutable): the tag CSC-Core should use when pulling configs for server deployment.
+- `s19` (maintainer-managed): season reference tag kept for historical convenience.
+
+Only `s{season}.{revision}` tags should be used for GitHub Releases.
 
 ### Hash Timing Behavior
 
@@ -321,6 +329,19 @@ In practice this doesn't matter because:
 - Bind human-readable names to commits
 - `git describe --tags` shows current version
 - No chicken-and-egg problem with hash generation
+
+### Release + Promotion Workflow
+
+```bash
+# 1) Cut immutable release tag
+git tag -a s19.2 -m "Season 19.2 release"
+git push origin s19.2
+gh release create s19.2 --title "s19.2" --notes "Season 19.2 config release"
+
+# 2) Promote release to live deployment pointer
+git tag -fa live -m "Promote s19.2 to live" s19.2
+git push origin refs/tags/live --force
+```
 
 ### Plugin Version Tracking
 
