@@ -32,8 +32,8 @@ fi
 echo "[pre-commit] Generating mode diffs (modes.md)..."
 tools/generate_mode_diffs.sh
 
-# Stage all modified configs and modes.md
-git add configs/**/*.cfg 2>/dev/null || true
+# Stage all modified configs recursively and modes.md
+git add configs 2>/dev/null || true
 git add modes.md 2>/dev/null || true
 
 echo "[pre-commit] Auto-stamped header changes have been staged."

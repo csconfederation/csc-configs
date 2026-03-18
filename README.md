@@ -83,7 +83,7 @@ This is also auto-stamped, allowing match admins to verify deployed versions in 
 
 1. **Clone**
    ```bash
-   git clone <repo-url> csc-configs && cd csc-configs
+   git clone https://github.com/csconfederation/csc-configs.git csc-configs && cd csc-configs
    ```
 
 2. **Run setup script**
@@ -173,6 +173,8 @@ say "> CSC Config Loaded | server.cfg | f5a42a2 | 2025-10-23 <"
 
 These messages appear in console/GOTV logs and confirm the exact commit that was applied.
 
+Because stamping happens during `git commit`, the hash written into a config is normally the current `HEAD` at commit time, not the newly created commit's hash. Use release tags such as `s19.2` and `live` for final release verification.
+
 ---
 
 ## ⚙️ Deployment
@@ -195,20 +197,20 @@ Configs are stamped with **commit hashes** for exact traceability. Human-readabl
 
 - `s19.0` — first Season 19 release
 - `s19.1` — second Season 19 release
-- `s20.0` — first Season 20 release
+- `s19.2` — third Season 19 release
 
 Operational/reference tags:
-- `live` — mutable deployment pointer used by Core when pulling configs
+- `live` — mutable deployment pointer used by CSC-Core when pulling configs
 - `s19` — season reference tag (historical helper; not the deployment pointer)
 
 ```bash
 # Create immutable release tag + release
-git tag -a s19.1 -m "Season 19.1 release"
-git push origin s19.1
-gh release create s19.1 --title "s19.1" --notes "Season 19.1 config release"
+git tag -a s19.2 -m "Season 19.2 release"
+git push origin s19.2
+gh release create s19.2 --title "s19.2" --notes "Season 19.2 config release"
 
 # Move live pointer to selected release
-git tag -fa live -m "Promote s19.1 to live" s19.1
+git tag -fa live -m "Promote s19.2 to live" s19.2^{}
 git push origin refs/tags/live --force
 
 # Check which release tag contains a commit

@@ -10,7 +10,7 @@ Follow these steps to get your local environment ready for CSC Config maintenanc
 
 1. **Clone the repository**
    ```bash
-   git clone <repo-url> csc-configs && cd csc-configs
+   git clone https://github.com/csconfederation/csc-configs.git csc-configs && cd csc-configs
    ```
 
 2. **Make scripts executable**
@@ -34,7 +34,7 @@ Follow these steps to get your local environment ready for CSC Config maintenanc
    ```
    You should see:
    ```
-   [update_headers] Updated headers for all configs/*.cfg with Version=<hash> Date=<date>
+   [update_headers] Updated headers/footers for all configs/*.cfg with Version=<hash> Date=<date>
    ```
 
 5. **Test the pre-commit hook**
@@ -43,7 +43,7 @@ Follow these steps to get your local environment ready for CSC Config maintenanc
    git add configs/Match/cfg/test.cfg
    git commit -m "Test commit"
    ```
-   The commit should trigger auto-stamping and stage any changed `.cfg` headers automatically.
+   The commit should trigger auto-stamping and stage any changed `.cfg` headers and footers automatically.
 
 6. **Optional: skip stamping for a commit**
    ```bash
@@ -243,12 +243,12 @@ Both the raw config file (header) and in-game console output (footer) can be use
 
 ```bash
 $ tools/update_headers.sh
-[update_headers] Updated headers for all configs/*.cfg with Version=f5a42a2 Date=2025-10-23
+[update_headers] Updated headers/footers for all configs/*.cfg with Version=f5a42a2 Date=2025-10-23
 ```
 
 ```bash
 $ git commit -am "Update scrim GOTV settings"
-[pre-commit] Stamping headers in configs/...
+[pre-commit] Stamping headers and footers in configs/...
 [pre-commit] Linting configs...
 [pre-commit] Generating mode diffs (modes.md)...
 [pre-commit] Auto-stamped header changes have been staged.
@@ -262,7 +262,7 @@ $ git commit -am "Update scrim GOTV settings"
 
 | Component | Function | Trigger |
 |-----------|----------|---------|
-| `tools/update_headers.sh` | Stamps config headers with version/date | Manual or via hook |
+| `tools/update_headers.sh` | Stamps config headers and footers with version/date | Manual or via hook |
 | `tools/cfg_linter.sh` | Validates headers, paths, footers, and legacy references | Manual or via hook |
 | `tools/generate_mode_diffs.sh` | Regenerates `modes.md` diff overview | Manual or via hook |
 | `tools/pre-commit.hook` | Template for Git pre-commit hook | Copy to `.git/hooks/` |
@@ -339,7 +339,7 @@ git push origin s19.2
 gh release create s19.2 --title "s19.2" --notes "Season 19.2 config release"
 
 # 2) Promote release to live deployment pointer
-git tag -fa live -m "Promote s19.2 to live" s19.2
+git tag -fa live -m "Promote s19.2 to live" s19.2^{}
 git push origin refs/tags/live --force
 ```
 

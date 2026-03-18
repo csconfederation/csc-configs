@@ -80,9 +80,8 @@ done
     rows=()
 
     # Collect all keys used in this file
-    for fk in "${!ALL_KEYS[@]}"; do
+    while IFS= read -r fk; do
       IFS='|' read -r file key <<< "$fk"
-      [[ "$file" == "$f" ]] || continue
 
       # Pull values per mode (blank if missing)
       declare -A V
@@ -103,7 +102,12 @@ done
         esc() { echo "${1//|/\\|}"; }
         rows+=("| \`$key\` | $(esc "${V[Match]}") | $(esc "${V[Scrim]}") | $(esc "${V[Combine]}") | $(esc "${V[Preseason]}") |")
       fi
-    done
+    done < <(
+      for fk in "${!ALL_KEYS[@]}"; do
+        IFS='|' read -r file key <<< "$fk"
+        [[ "$file" == "$f" ]] && printf '%s\n' "$fk"
+      done | LC_ALL=C sort -t '|' -k2,2
+    )
 
     if (( any_diff == 1 )); then
       echo "## ${f}"

@@ -18,6 +18,7 @@ Release tags follow the format `s{season}.{revision}`:
 **Examples:**
 - `s19.0` — First release of Season 19
 - `s19.1` — Second release of Season 19 (bug fix, setting tweak, etc.)
+- `s19.2` — Third release of Season 19
 - `s20.0` — First release of Season 20
 
 Reset revision to 0 at the start of each season.
@@ -59,6 +60,17 @@ Template for new entries:
 - Description of change
 - **Breaking:** Description of breaking change (if any)
 -->
+
+### s19.2 — 2026-03-18
+
+**Plugins:**
+- MatchZy 0.8.15
+- Metamod:Source 1389
+- CounterStrikeSharp 1.0.363
+
+**Changes:**
+- Update plugin dependencies to Metamod:Source 1389 and CounterStrikeSharp 1.0.363.
+- Disable player annotations in `gamemode_competitive_server.cfg` across Match, Scrim, Combine, and Preseason.
 
 ### s19.1 — 2026-02-17
 
@@ -107,7 +119,7 @@ git push origin s19.2
 gh release create s19.2 --title "s19.2" --notes "Season 19.2 config release"
 
 # Promote to live after validation
-git tag -fa live -m "Promote s19.2 to live" s19.2
+git tag -fa live -m "Promote s19.2 to live" s19.2^{}
 git push origin refs/tags/live --force
 ```
 
@@ -123,5 +135,5 @@ git tag --contains <hash>
 
 To see what's changed since last release:
 ```bash
-git log s19.1..HEAD --oneline
+git log s19.2..HEAD --oneline
 ```
