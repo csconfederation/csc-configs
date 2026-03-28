@@ -21,12 +21,25 @@ needs_footer() {
   esac
 }
 
+footer_label() {
+  local mode="$1"
+  local base="$2"
+  if [[ "$base" == "live_override.cfg" ]]; then
+    printf 'CSC %s is Live ' "$mode"
+  else
+    printf 'CSC %s Config Loaded' "$mode"
+  fi
+}
+
 check_file() {
   local f="$1"
   local rel="${f#./}"
   local base="$(basename "$f")"
   local mode="${rel#configs/}"
   mode="${mode%%/*}"
+  local footer_text
+  footer_text="$(footer_label "$mode" "$base")"
+  local footer_prefix="say \"> ${footer_text} | ${base} |"
 
   # Header presence
   if ! head -n 6 "$f" | grep -qE '^//[[:space:]]*=+'; then
@@ -65,17 +78,17 @@ check_file() {
   # Footer checks (only for files that need footers)
   if needs_footer "$rel"; then
     # Footer echo must be mode-specific for all configs.
-    if ! tail -n 5 "$f" | grep -qE "^say \"> CSC ${mode} Config Loaded \| ${base} \|"; then
+    if ! tail -n 5 "$f" | grep -qF "$footer_prefix"; then
       echo "${RED}[lint] Missing or malformed footer 'say' line:${RESET} $rel"
-      echo "       Expected: say \"> CSC ${mode} Config Loaded | ${base} | <hash> | <date> <\""
+      echo "       Expected: ${footer_prefix}<hash> | <date> <\""
       failures=$((failures+1)); offenders+=("$rel")
       return
     fi
-    footer_line="$(tail -n 5 "$f" | grep -E "^say \"> CSC ${mode} Config Loaded \| ${base} \|" | head -n 1)"
+    footer_line="$(tail -n 5 "$f" | grep -F "$footer_prefix" | head -n 1)"
     if [[ -n "$footer_line" ]]; then
       # Header/footer version consistency check
       header_version="$(head -n 12 "$f" | grep -E '^// Version:' | sed 's|^// Version:[[:space:]]*||')"
-      # Extract version from footer: say "> CSC ... Config Loaded | file.cfg | VERSION | DATE <"
+      # Extract version from footer: say "> CSC ... | file.cfg | VERSION | DATE <"
       footer_version="$(echo "$footer_line" | sed -E "s|.*\| ${base} \| ([^ |]+) \|.*|\1|")"
 
       if [[ -n "$header_version" && -n "$footer_version" && "$header_version" != "$footer_version" ]]; then

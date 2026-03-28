@@ -25,6 +25,20 @@ needs_footer() {
   esac
 }
 
+footer_label() {
+  local mode="$1"
+  local base="$2"
+  if [[ "$base" == "live_override.cfg" ]]; then
+    printf 'CSC %s is Live ' "$mode"
+  else
+    printf 'CSC %s Config Loaded' "$mode"
+  fi
+}
+
+escape_regex() {
+  printf '%s' "$1" | sed -e 's/[][\\.^$*+?(){}|]/\\&/g'
+}
+
 # Ensure a standard header exists; if missing, prepend one.
 ensure_header() {
   local file="$1"
@@ -55,17 +69,19 @@ ensure_footer() {
   local rel_path="${file#./}"
   rel_path="${rel_path#configs/}"
   local mode="${rel_path%%/*}"
+  local footer_text
+  footer_text="$(footer_label "$mode" "$base")"
 
   # Skip files that don't need footers
   needs_footer "$file" || return 0
 
   # Check if standard footer pattern exists
-  if ! grep -qE "^say \"> CSC ${mode} Config Loaded \| ${base} \|" "$file"; then
+  if ! grep -qF "say \"> ${footer_text} | ${base} |" "$file"; then
     # Append footer with blank line separator
     {
       echo
       echo "// End of Config"
-      echo "say \"> CSC ${mode} Config Loaded | ${base} | ${VERSION} | ${DATE} <\""
+      echo "say \"> ${footer_text} | ${base} | ${VERSION} | ${DATE} <\""
     } >> "$file"
   fi
 }
@@ -79,13 +95,13 @@ normalize_footer() {
   needs_footer "$file" || return 0
 
   local base_regex
-  base_regex="$(printf '%s' "$base" | sed -e 's/[][\\.^$*+?(){}|]/\\&/g')"
+  base_regex="$(escape_regex "$base")"
   local tmp
   tmp="$(mktemp)"
 
   awk -v base_re="$base_regex" '
     $0 == "// End of Config" { next }
-    $0 ~ ("^say \"> CSC .* Config Loaded \\| " base_re " \\| .* <\"$") { next }
+    $0 ~ ("^say \"> CSC .* \\| " base_re " \\| .* <\"$") { next }
     { lines[NR] = $0 }
     $0 ~ /[^[:space:]]/ { last = NR }
     END {
@@ -115,13 +131,17 @@ stamp_footer() {
   local rel_path="${file#./}"
   rel_path="${rel_path#configs/}"
   local mode="${rel_path%%/*}"
+  local footer_text
+  footer_text="$(footer_label "$mode" "$base")"
+  local base_regex
+  base_regex="$(escape_regex "$base")"
 
   # Skip files that don't need footers
   needs_footer "$file" || return 0
 
-  # Mode-specific footer for all config files that require footers.
-  # Matches any prior CSC footer format for this filename.
-  sedi -E "s#say \"> CSC ([^|]* )?Config Loaded \\| ${base} \\| .* <\"#say \"> CSC ${mode} Config Loaded | ${base} | ${VERSION} | ${DATE} <\"#g" "$file"
+  # live_override.cfg uses an "is Live" footer; everything else uses "Config Loaded".
+  # Match any prior CSC footer format for this filename and re-stamp it.
+  sedi -E "s#^say \"> CSC .* \\| ${base_regex} \\| .* <\"\$#say \"> ${footer_text} | ${base} | ${VERSION} | ${DATE} <\"#g" "$file"
 }
 
 # Walk all cfgs under configs/

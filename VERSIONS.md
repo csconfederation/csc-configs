@@ -61,6 +61,18 @@ Template for new entries:
 - **Breaking:** Description of breaking change (if any)
 -->
 
+### s19.3 — 2026-03-28
+
+**Plugins:**
+- MatchZy 0.8.15
+- Metamod:Source 1389
+- CounterStrikeSharp 1.0.363
+
+**Changes:**
+- Remove the decorative `CSC <Mode> Config Loaded` and `<Mode> is Live` banner lines from all `MatchZy/live_override.cfg` files.
+- Stamp `MatchZy/live_override.cfg` footers as `CSC <Mode> is Live` instead of `CSC <Mode> Config Loaded`.
+- Update config tooling so header/footer stamping and linting preserve the new `live_override.cfg` footer format.
+
 ### s19.2 — 2026-03-18
 
 **Plugins:**
