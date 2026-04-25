@@ -280,7 +280,7 @@ CSC Configs uses a hybrid versioning approach:
 |-----------|--------|---------|
 | Config stamps | Commit hash (`f5a42a2`) | Exact traceability in logs |
 | Release tags | `s{season}.{revision}` | Human-readable immutable releases |
-| Reference tags | `live`, `s19` | Deployment/reference pointers |
+| Reference tags | `live`, `s{season}` | Deployment/reference pointers |
 | VERSIONS.md | Changelog + plugin deps | Documentation and history |
 
 ### Release Tag Schema
@@ -295,7 +295,7 @@ Examples: `s12.1` (first release of Season 12), `s12.2` (second release), `s13.1
 ### Reference Tags
 
 - `live` (mutable): the tag CSC-Core should use when pulling configs for server deployment.
-- `s19` (maintainer-managed): season reference tag kept for historical convenience.
+- `s{season}` (maintainer-managed): season reference tag kept for historical convenience.
 
 Only `s{season}.{revision}` tags should be used for GitHub Releases.
 
@@ -334,12 +334,12 @@ In practice this doesn't matter because:
 
 ```bash
 # 1) Cut immutable release tag
-git tag -a s19.2 -m "Season 19.2 release"
-git push origin s19.2
-gh release create s19.2 --title "s19.2" --notes "Season 19.2 config release"
+git tag -a s20.0 -m "Season 20.0 release"
+git push origin s20.0
+gh release create s20.0 --title "s20.0" --notes "Season 20.0 config release"
 
 # 2) Promote release to live deployment pointer
-git tag -fa live -m "Promote s19.2 to live" s19.2^{}
+git tag -fa live -m "Promote s20.0 to live" s20.0^{}
 git push origin refs/tags/live --force
 ```
 

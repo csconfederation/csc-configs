@@ -26,9 +26,9 @@ Reset revision to 0 at the start of each season.
 ### Reference Tags
 
 - `live` (mutable): deployment pointer used by CSC-Core when pulling configs.
-- `s19` (mutable by maintainer choice): season reference tag for historical grouping.
+- `s{season}` (mutable by maintainer choice): season reference tag for historical grouping.
 
-Only `s{season}.{revision}` tags are release tags. `live` and `s19` are operational/reference tags.
+Only `s{season}.{revision}` tags are release tags. `live` and `s{season}` are operational/reference tags.
 
 ---
 
@@ -39,8 +39,8 @@ All modes require the same plugin versions.
 | Plugin | Version | Required | Notes |
 |--------|---------|----------|-------|
 | MatchZy | [0.8.15](https://github.com/shobhit-pathak/MatchZy/releases/tag/0.8.15) | Yes | Core match management |
-| Metamod:Source | [1389](https://github.com/alliedmodders/metamod-source/tree/0974cc07e8a51ba76f3a8b7820cca14) | Yes | Plugin framework |
-| CounterStrikeSharp | [1.0.363](https://github.com/roflmuffin/CounterStrikeSharp/releases/tag/v1.0.363) | Yes | MatchZy dependency |
+| Metamod:Source | [1.12.0.1221](https://github.com/alliedmodders/metamod-source/releases/tag/1.12.0.1221) | Yes | Plugin framework |
+| CounterStrikeSharp | [1.0.367](https://github.com/roflmuffin/CounterStrikeSharp/releases/tag/v1.0.367) | Yes | MatchZy dependency |
 
 ---
 
@@ -60,6 +60,17 @@ Template for new entries:
 - Description of change
 - **Breaking:** Description of breaking change (if any)
 -->
+
+### s20.0 — 2026-04-25
+
+**Plugins:**
+- MatchZy 0.8.15
+- Metamod:Source 1.12.0.1221
+- CounterStrikeSharp 1.0.367
+
+**Changes:**
+- Start the Season 20 release line.
+- Update plugin dependencies to Metamod:Source 1.12.0.1221 and CounterStrikeSharp 1.0.367.
 
 ### s19.3 — 2026-03-28
 
@@ -122,16 +133,16 @@ When ready to mark a release:
 
 ```bash
 # Tag the current commit
-git tag -a s19.2 -m "Season 19.2 - description"
+git tag -a s20.0 -m "Season 20.0 - description"
 
 # Push the tag
-git push origin s19.2
+git push origin s20.0
 
 # Create GitHub release from the release tag
-gh release create s19.2 --title "s19.2" --notes "Season 19.2 config release"
+gh release create s20.0 --title "s20.0" --notes "Season 20.0 config release"
 
 # Promote to live after validation
-git tag -fa live -m "Promote s19.2 to live" s19.2^{}
+git tag -fa live -m "Promote s20.0 to live" s20.0^{}
 git push origin refs/tags/live --force
 ```
 
@@ -147,5 +158,5 @@ git tag --contains <hash>
 
 To see what's changed since last release:
 ```bash
-git log s19.2..HEAD --oneline
+git log s20.0..HEAD --oneline
 ```
