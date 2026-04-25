@@ -39,7 +39,7 @@ All modes require the same plugin versions.
 | Plugin | Version | Required | Notes |
 |--------|---------|----------|-------|
 | MatchZy | [0.8.15](https://github.com/shobhit-pathak/MatchZy/releases/tag/0.8.15) | Yes | Core match management |
-| Metamod:Source | [1.12.0.1221](https://github.com/alliedmodders/metamod-source/releases/tag/1.12.0.1221) | Yes | Plugin framework |
+| Metamod:Source | [2.0.0.1396](https://github.com/alliedmodders/metamod-source/releases/download/2.0.0.1396/mmsource-2.0.0-git1396-linux.tar.gz) | Yes | Plugin framework |
 | CounterStrikeSharp | [1.0.367](https://github.com/roflmuffin/CounterStrikeSharp/releases/tag/v1.0.367) | Yes | MatchZy dependency |
 
 ---
@@ -65,12 +65,12 @@ Template for new entries:
 
 **Plugins:**
 - MatchZy 0.8.15
-- Metamod:Source 1.12.0.1221
+- Metamod:Source 2.0.0.1396
 - CounterStrikeSharp 1.0.367
 
 **Changes:**
 - Start the Season 20 release line.
-- Update plugin dependencies to Metamod:Source 1.12.0.1221 and CounterStrikeSharp 1.0.367.
+- Update plugin dependencies to Metamod:Source 2.0.0.1396 and CounterStrikeSharp 1.0.367.
 
 ### s19.3 — 2026-03-28
 
