@@ -39,7 +39,7 @@ All modes require the same plugin versions.
 | Plugin | Version | Required | Notes |
 |--------|---------|----------|-------|
 | MatchZy | [0.8.15](https://github.com/shobhit-pathak/MatchZy/releases/tag/0.8.15) | Yes | Core match management |
-| Metamod:Source | [2.0.0.1396](https://github.com/alliedmodders/metamod-source/releases/download/2.0.0.1396/mmsource-2.0.0-git1396-linux.tar.gz) | Yes | Plugin framework |
+| Metamod:Source | [1401](https://github.com/alliedmodders/metamod-source/tree/efeabcf63d26889af54f298e2a68ea43) | Yes | Plugin framework |
 | CounterStrikeSharp | [1.0.367](https://github.com/roflmuffin/CounterStrikeSharp/releases/tag/v1.0.367) | Yes | MatchZy dependency |
 
 ---
@@ -60,6 +60,18 @@ Template for new entries:
 - Description of change
 - **Breaking:** Description of breaking change (if any)
 -->
+
+### s20.1 — 2026-05-07
+
+**Plugins:**
+- MatchZy 0.8.15
+- Metamod:Source 1401
+- CounterStrikeSharp 1.0.367
+
+**Changes:**
+- Enable free armor during MatchZy warmup across Match, Scrim, Combine, and Preseason.
+- Explicitly disable free armor during live competitive play across Match, Scrim, Combine, and Preseason.
+- Update plugin dependencies to Metamod:Source 1401.
 
 ### s20.0 — 2026-04-25
 
