@@ -217,7 +217,7 @@ git push origin refs/tags/live --force
 git tag --contains f5a42a2
 ```
 
-Plugin versions (MatchZy, Metamod:Source, CounterStrikeSharp) are tracked in [VERSIONS.md](VERSIONS.md) — both current versions and historical versions for each release.
+Plugin versions (MatchZy, CSC Plugin, Metamod:Source, CounterStrikeSharp) are tracked in [VERSIONS.md](VERSIONS.md) — both current versions and historical versions for each release.
 
 ---
 

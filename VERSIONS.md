@@ -39,8 +39,9 @@ All modes require the same plugin versions.
 | Plugin | Version | Required | Notes |
 |--------|---------|----------|-------|
 | MatchZy | [0.8.15](https://github.com/shobhit-pathak/MatchZy/releases/tag/0.8.15) | Yes | Core match management |
+| CSC Plugin | [0.2.0](https://github.com/csconfederation/csc-plugin/releases/tag/v0.2.0) | Yes | CSC server integration |
 | Metamod:Source | [1401](https://github.com/alliedmodders/metamod-source/tree/efeabcf63d26889af54f298e2a68ea43) | Yes | Plugin framework |
-| CounterStrikeSharp | [1.0.367](https://github.com/roflmuffin/CounterStrikeSharp/releases/tag/v1.0.367) | Yes | MatchZy dependency |
+| CounterStrikeSharp | [1.0.368](https://github.com/roflmuffin/CounterStrikeSharp/releases/tag/v1.0.368) | Yes | MatchZy dependency |
 
 ---
 
@@ -53,6 +54,7 @@ Template for new entries:
 
 **Plugins:**
 - MatchZy x.x.x
+- CSC Plugin x.x.x
 - Metamod:Source x.x.x
 - CounterStrikeSharp x.x.x
 
@@ -60,6 +62,18 @@ Template for new entries:
 - Description of change
 - **Breaking:** Description of breaking change (if any)
 -->
+
+### s20.2 — 2026-05-17
+
+**Plugins:**
+- MatchZy 0.8.15
+- CSC Plugin 0.2.0
+- Metamod:Source 1401
+- CounterStrikeSharp 1.0.368
+
+**Changes:**
+- Add CSC Plugin 0.2.0 to tracked plugin dependencies.
+- Update plugin dependencies to CounterStrikeSharp 1.0.368.
 
 ### s20.1 — 2026-05-07
 
@@ -131,6 +145,7 @@ Template for new entries:
 
 **Plugins:**
 - MatchZy x.x.x
+- CSC Plugin x.x.x
 - Metamod:Source x.x.x
 - CounterStrikeSharp x.x.x
 

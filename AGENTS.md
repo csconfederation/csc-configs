@@ -345,7 +345,7 @@ git push origin refs/tags/live --force
 
 ### Plugin Version Tracking
 
-Plugin versions (MatchZy, Metamod:Source, CounterStrikeSharp) are documented in [VERSIONS.md](VERSIONS.md):
+Plugin versions (MatchZy, CSC Plugin, Metamod:Source, CounterStrikeSharp) are documented in [VERSIONS.md](VERSIONS.md):
 
 - **Current versions** in the Plugin Dependencies table
 - **Historical versions** in each changelog entry
