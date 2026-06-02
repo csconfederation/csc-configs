@@ -63,7 +63,7 @@ Template for new entries:
 - **Breaking:** Description of breaking change (if any)
 -->
 
-### s20.2 — 2026-05-17
+### s20.2 — 2026-06-02
 
 **Plugins:**
 - MatchZy 0.8.15
@@ -74,6 +74,9 @@ Template for new entries:
 **Changes:**
 - Add CSC Plugin 0.2.0 to tracked plugin dependencies.
 - Update plugin dependencies to CounterStrikeSharp 1.0.368.
+- Add 1v1 mode config: `server.cfg`, `gamemode_competitive_server.cfg`, `MatchZy/config.cfg`, `MatchZy/live_override.cfg`, `MatchZy/warmup.cfg`.
+- 1v1 settings: AK47 + deagle, full armor, no grenades, no economy, 16-round format (first to 9), 10-minute round time, no timeouts, unlimited OT.
+- Extend `generate_mode_diffs.sh` to include 1v1 in the mode comparison table.
 
 ### s20.1 — 2026-05-07
 

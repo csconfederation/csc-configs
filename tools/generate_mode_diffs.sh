@@ -5,13 +5,13 @@ ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 cd "$ROOT"
 
 OUT="modes.md"
-MODES=("Match" "Scrim" "Combine" "Preseason")
+MODES=("Match" "Scrim" "Combine" "Preseason" "1v1")
 FILES=(
   "cfg/server.cfg"
   "cfg/gamemode_competitive_server.cfg"
   "cfg/MatchZy/config.cfg"
   "cfg/MatchZy/live_override.cfg"
-  "cfg/MatchZy/warmup.cfg" # optional
+  "cfg/MatchZy/warmup.cfg"
 )
 
 # Parse a cfg into key\tvalue pairs
@@ -100,7 +100,12 @@ done
         any_diff=1
         # escape pipes in values for markdown
         esc() { echo "${1//|/\\|}"; }
-        rows+=("| \`$key\` | $(esc "${V[Match]}") | $(esc "${V[Scrim]}") | $(esc "${V[Combine]}") | $(esc "${V[Preseason]}") |")
+        row="| \`$key\`"
+        for mode in "${MODES[@]}"; do
+          row+=" | $(esc "${V[$mode]}")"
+        done
+        row+=" |"
+        rows+=("$row")
       fi
     done < <(
       for fk in "${!ALL_KEYS[@]}"; do
@@ -112,8 +117,14 @@ done
     if (( any_diff == 1 )); then
       echo "## ${f}"
       echo
-      echo "| Setting | Match | Scrim | Combine | Preseason |"
-      echo "|---|---|---|---|---|"
+      header="| Setting"
+      sep="|---"
+      for mode in "${MODES[@]}"; do
+        header+=" | $mode"
+        sep+="|---"
+      done
+      echo "$header |"
+      echo "$sep|"
       IFS=$'\n' printf "%s\n" "${rows[@]}"
       echo
     fi
