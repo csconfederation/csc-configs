@@ -63,6 +63,18 @@ Template for new entries:
 - **Breaking:** Description of breaking change (if any)
 -->
 
+### s20.3 — 2026-06-12
+
+**Plugins:**
+- MatchZy 0.8.15
+- CSC Plugin 0.2.0
+- Metamod:Source 1401
+- CounterStrikeSharp 1.0.368
+
+**Changes:**
+- Enable detailed match logging in `server.cfg` across Match, Scrim, Combine, Preseason, and 1v1 modes.
+- Add `mp_logdetail 3`, `mp_logmoney 1`, and `mp_logdetail_items 1` to capture damage, money, and item logging.
+
 ### s20.2 — 2026-06-02
 
 **Plugins:**
