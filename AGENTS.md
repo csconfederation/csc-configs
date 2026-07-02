@@ -1,357 +1,44 @@
-# 🤖 AGENTS.md
+# AGENTS.md — csc-configs
 
-This document describes all automated processes (agents, scripts, and hooks) used in the **CSC Config Repository** to ensure version consistency, formatting, and reliability across configuration files.
+CS2 game-server configs for the CSC league. Five modes live under `configs/<Mode>/cfg/`: `Match`, `Scrim`, `Combine`, `Preseason`, `1v1`. Each mode has `server.cfg`, `gamemode_competitive_server.cfg`, and `MatchZy/` plugin configs (`config.cfg`, `live_override.cfg`, `warmup.cfg`). All automation is local shell — no runtime dependencies.
 
----
-
-## 🧑‍💻 Developer Setup
-
-Follow these steps to get your local environment ready for CSC Config maintenance:
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/csconfederation/csc-configs.git csc-configs && cd csc-configs
-   ```
-
-2. **Make scripts executable**
-   ```bash
-   chmod +x tools/update_headers.sh
-   chmod +x tools/cfg_linter.sh
-   chmod +x tools/generate_mode_diffs.sh
-   ```
-
-3. **Install the pre-commit hook**
-
-   The `.git/hooks/` directory is not tracked by Git, so you must create the hook manually:
-   ```bash
-   cp tools/pre-commit.hook .git/hooks/pre-commit
-   chmod +x .git/hooks/pre-commit
-   ```
-
-4. **Verify header stamping manually**
-   ```bash
-   tools/update_headers.sh
-   ```
-   You should see:
-   ```
-   [update_headers] Updated headers/footers for all configs/*.cfg with Version=<hash> Date=<date>
-   ```
-
-5. **Test the pre-commit hook**
-   ```bash
-   echo "// test" >> configs/Match/cfg/test.cfg
-   git add configs/Match/cfg/test.cfg
-   git commit -m "Test commit"
-   ```
-   The commit should trigger auto-stamping and stage any changed `.cfg` headers and footers automatically.
-
-6. **Optional: skip stamping for a commit**
-   ```bash
-   SKIP_HEADER_STAMP=1 git commit -m "Temporary commit"
-   ```
-
-That's it — your environment is ready to maintain and version CSC configuration files with automatic consistency and traceability.
-
----
-
-## 🧩 Overview
-
-CSC Configs uses lightweight automation to:
-
-* Keep headers in all `.cfg` files up to date.
-* Stamp each config with the current **Git commit hash** and **last updated date**.
-* Prevent configuration drift between game servers.
-* Automatically stage updates during commits.
-* Generate human-readable diffs of mode differences.
-
-All automation runs locally and does **not** modify Git history or tags.
-
----
-
-## 🧠 Agents & Scripts
-
-### 🪄 `tools/update_headers.sh`
-
-**Purpose:**
-Automatically updates the header metadata at the top of every `.cfg` file under `configs/`.
-
-**Behavior:**
-
-* Detects the latest commit hash using `git rev-parse --short HEAD`.
-* Updates three header fields within the first 12 lines:
-  ```cfg
-  // Path: <relative path>
-  // Version: <commit hash>
-  // Last Updated: <date>
-  ```
-* Prepends a standard six-line header block if one is missing.
-* Appends a standard footer `say` line if one is missing (except for `MatchZy/config.cfg`).
-* Stamps footer `say` lines with current commit hash and date.
-* Paths are stored in mode-local notation (e.g., `Match/cfg/server.cfg`), stripping the leading `configs/` prefix.
-* Portable across Linux, macOS, and WSL.
-
-**Run manually:**
-```bash
-tools/update_headers.sh
-```
-
----
-
-### 🧹 `tools/cfg_linter.sh`
-
-**Purpose:**
-Validates that every committed configuration carries the expected metadata and structure.
-
-**Checks performed:**
-
-| Check | Description |
-|-------|-------------|
-| Header delimiter | First 6 lines must contain `// ===...` delimiter |
-| Path line | `// Path:` must exist and must NOT start with `configs/` |
-| Version line | `// Version:` must exist in first 12 lines |
-| Last Updated line | `// Last Updated:` must exist in first 12 lines |
-| Legacy banlist references | Fails if `banned_user.cfg`, `banned_ip.cfg`, `writeid`, or `writeip` are found |
-| Footer echo | Validates `say` line exists with correct filename |
-| Version consistency | Header and footer version must match |
-
-**Footer enforcement scope:**
-
-The footer `say` line is validated for **all config files** except:
-* `*/cfg/MatchZy/config.cfg` — Plugin configuration, no console output needed
-
-**Error reporting:**
-
-The linter runs all checks and reports every issue found before exiting. It does **not** fail-fast on the first error — you'll see all problems in a single run.
-
-**Run manually:**
-```bash
-tools/cfg_linter.sh
-```
-
----
-
-### 📊 `tools/generate_mode_diffs.sh`
-
-**Purpose:**
-Produces `modes.md`, a human-readable comparison of settings that differ across Match, Scrim, Combine, and Preseason modes.
-
-**Behavior:**
-
-* Parses these config files from each mode:
-  * `cfg/server.cfg`
-  * `cfg/gamemode_competitive_server.cfg`
-  * `cfg/MatchZy/config.cfg`
-  * `cfg/MatchZy/live_override.cfg`
-  * `cfg/MatchZy/warmup.cfg`
-* Extracts key-value pairs, ignoring comments, `exec`, and `say` lines.
-* Compares each setting across all four modes.
-* Outputs only settings where **at least one mode differs** from the others.
-* Silently skips files that don't exist for a given mode.
-
-**Run manually:**
-```bash
-tools/generate_mode_diffs.sh
-```
-
----
-
-### 🪝 `.git/hooks/pre-commit`
-
-**Purpose:**
-Runs automatically before each commit to keep configs consistent and up to date.
-
-**Behavior:**
-
-1. Executes `tools/update_headers.sh` to stamp headers
-2. Runs `tools/cfg_linter.sh` to validate all configs
-3. Runs `tools/generate_mode_diffs.sh` and stages the refreshed `modes.md`
-4. Stages all modified `.cfg` files under `configs/`
-5. Prints a summary of updated files
-
-If the linter fails, the commit is aborted.
-
-**Installation:**
-
-Since `.git/hooks/` is not tracked by Git, copy the hook template:
-```bash
-cp tools/pre-commit.hook .git/hooks/pre-commit
-chmod +x .git/hooks/pre-commit
-```
-
-**Skip for a single commit:**
-```bash
-SKIP_HEADER_STAMP=1 git commit -m "Temporary commit"
-```
-
----
-
-## 🧾 Header Format
-
-Every config file begins with a six-line header block for traceability:
-
-```cfg
-// =========================================================
-// CSC Config File
-// Path: Match/cfg/server.cfg
-// Version: <commit hash>
-// Last Updated: <date>
-// =========================================================
-```
-
-`update_headers.sh` replaces `<commit hash>` and `<date>` with live values during each commit.
-
----
-
-## 🔖 Footer Verification
-
-Config files end with a `say` line for in-game verification:
-
-```cfg
-say "> CSC Config Loaded | server.cfg | f5a42a2 | 2025-10-23 <"
-```
-
-The `update_headers.sh` script automatically stamps these footer lines with the current commit hash and date. This allows match admins and developers to verify the exact deployed version directly in the server console or GOTV logs.
-
-The linter validates that the footer `say` line exists and references the correct filename.
-
----
-
-## 🔍 Verification Flow
-
-Each config file includes version information in two locations:
-
-| Location | Content | Stamped Automatically? |
-|----------|---------|------------------------|
-| Header line 4 | `// Version: <hash>` | ✅ Yes |
-| Header line 5 | `// Last Updated: <date>` | ✅ Yes |
-| Footer `say` | Commit hash and date | ✅ Yes |
-
-Both the raw config file (header) and in-game console output (footer) can be used to verify the exact Git revision deployed to a server.
-
----
-
-## ⚙️ Maintenance Notes
-
-* Scripts and hooks operate only on the `configs/` directory.
-* No server runtime dependencies are required — all automation is local Git-based.
-* The pre-commit hook is optional but strongly recommended for anyone making config changes.
-* If a mode is missing a config file, `generate_mode_diffs.sh` skips it silently — `modes.md` only reflects files that exist.
-
----
-
-## ✅ Example Run
+## Setup
 
 ```bash
-$ tools/update_headers.sh
-[update_headers] Updated headers/footers for all configs/*.cfg with Version=f5a42a2 Date=2025-10-23
+./setup.sh   # chmod tools/*.sh + install pre-commit hook
 ```
 
-```bash
-$ git commit -am "Update scrim GOTV settings"
-[pre-commit] Stamping headers and footers in configs/...
-[pre-commit] Linting configs...
-[pre-commit] Generating mode diffs (modes.md)...
-[pre-commit] Auto-stamped header changes have been staged.
-[main f5a42a2] Update scrim GOTV settings
- 4 files changed, 12 insertions(+), 12 deletions(-)
-```
+Or manually: `cp tools/pre-commit.hook .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit`.
 
----
+## Tools
 
-## 📜 Summary
+All operate only on `configs/`. Run from repo root.
 
-| Component | Function | Trigger |
-|-----------|----------|---------|
-| `tools/update_headers.sh` | Stamps config headers and footers with version/date | Manual or via hook |
-| `tools/cfg_linter.sh` | Validates headers, paths, footers, and legacy references | Manual or via hook |
-| `tools/generate_mode_diffs.sh` | Regenerates `modes.md` diff overview | Manual or via hook |
-| `tools/pre-commit.hook` | Template for Git pre-commit hook | Copy to `.git/hooks/` |
-| `.git/hooks/pre-commit` | Runs stamp, lint, and diff automations | Before each commit |
+- `tools/update_headers.sh` — stamps every `.cfg` header (`// Version: <short hash>`, `// Last Updated: <date>`) and footer `say` line with `git rev-parse --short HEAD` + today's date. Prepends the standard 6-line header and appends the footer if missing. Exception: `*/cfg/MatchZy/config.cfg` gets no footer (plugin config, no console output).
+- `tools/cfg_linter.sh` — validates all configs; reports every failure in one run (not fail-fast). Checks: 6-line `// ===` header block; `// Path:` present and NOT prefixed with `configs/` (mode-local, e.g. `Match/cfg/server.cfg`); `// Version:` and `// Last Updated:` within first 12 lines; no legacy banlist references (`banned_user.cfg`, `banned_ip.cfg`, `writeid`, `writeip`); footer `say` line present with correct filename (text is `CSC <Mode> Config Loaded`, except `live_override.cfg` uses `CSC <Mode> is Live`); header and footer versions match.
+- `tools/generate_mode_diffs.sh` — regenerates `modes.md`: for each of the five per-mode config files, compares key/value settings across all five modes and lists only settings where at least one mode differs. Missing files are skipped silently.
 
----
+## Pre-commit hook
 
----
+Runs only when `configs/**/*.cfg` files are staged. Sequence: stamp headers → lint (abort commit on failure) → regenerate `modes.md` → auto-stage `configs/` and `modes.md`.
 
-## 🏷️ Versioning Strategy
+Skip all automation for one commit: `SKIP_HEADER_STAMP=1 git commit ...`
 
-CSC Configs uses a hybrid versioning approach:
+**Hash timing gotcha:** the stamped hash is the *parent* commit's hash (HEAD at stamp time), always one behind the commit containing the stamp. Expected; use tags or `git log configs/` for exact release verification.
 
-| Component | Format | Purpose |
-|-----------|--------|---------|
-| Config stamps | Commit hash (`f5a42a2`) | Exact traceability in logs |
-| Release tags | `s{season}.{revision}` | Human-readable immutable releases |
-| Reference tags | `live`, `s{season}` | Deployment/reference pointers |
-| VERSIONS.md | Changelog + plugin deps | Documentation and history |
+## Versioning & releases
 
-### Release Tag Schema
+- Config stamps: short commit hash (automatic, see above).
+- Release tags: `s{season}.{revision}` (e.g. `s12.1`), immutable, used for GitHub Releases.
+- `live` (mutable tag): what CSC-Core pulls for server deployment. `s{season}`: maintainer-managed season pointer.
+- Plugin versions (MatchZy, CSC Plugin, Metamod:Source, CounterStrikeSharp) are tracked in `VERSIONS.md` — update it with each release.
 
-Release tags follow the format `s{season}.{revision}`:
-
-- `s{season}` — CSC season number (e.g., `s12` = Season 12)
-- `.{REVISION}` — Incremental release within the season, starting at 0
-
-Examples: `s12.1` (first release of Season 12), `s12.2` (second release), `s13.1` (first release of Season 13)
-
-### Reference Tags
-
-- `live` (mutable): the tag CSC-Core should use when pulling configs for server deployment.
-- `s{season}` (maintainer-managed): season reference tag kept for historical convenience.
-
-Only `s{season}.{revision}` tags should be used for GitHub Releases.
-
-### Hash Timing Behavior
-
-The stamped hash is always the **parent commit's hash**, not the commit that contains the stamped files. This is inherent to how Git works:
-
-1. You're on commit `abc123`
-2. You edit configs and run `git commit`
-3. Pre-commit hook stamps files with `abc123` (current HEAD at that moment)
-4. Commit is created → new hash `def456`
-5. Files in `def456` contain hash `abc123`
-
-**This is expected behavior.** The hash answers: "What was the repo state when these configs were last touched?"
-
-In practice this doesn't matter because:
-
-- The behavior is consistent and predictable (always one behind)
-- Git tags point to the actual commit — use tags for release verification
-- `git log --oneline configs/` shows the true commit history
-- `git tag --contains <hash>` still returns the correct release
-
-### Why commit hashes in configs?
-
-- Fully automatic — no manual version bumps
-- Unambiguous — maps to exact Git state
-- Log-reviewable — verify deployments precisely
-
-### Why Git tags for releases?
-
-- Bind human-readable names to commits
-- `git describe --tags` shows current version
-- No chicken-and-egg problem with hash generation
-
-### Release + Promotion Workflow
+Release + promotion:
 
 ```bash
-# 1) Cut immutable release tag
-git tag -a s20.0 -m "Season 20.0 release"
-git push origin s20.0
+git tag -a s20.0 -m "Season 20.0 release" && git push origin s20.0
 gh release create s20.0 --title "s20.0" --notes "Season 20.0 config release"
-
-# 2) Promote release to live deployment pointer
+# Promote to live deployment pointer
 git tag -fa live -m "Promote s20.0 to live" s20.0^{}
 git push origin refs/tags/live --force
 ```
-
-### Plugin Version Tracking
-
-Plugin versions (MatchZy, CSC Plugin, Metamod:Source, CounterStrikeSharp) are documented in [VERSIONS.md](VERSIONS.md):
-
-- **Current versions** in the Plugin Dependencies table
-- **Historical versions** in each changelog entry
-
-This ensures you can determine exactly which plugin versions were in use for any given config release.
-
----
-
-CSC Configs automation ensures every deployed configuration can be traced, verified, and reproduced precisely — maintaining parity across all CSC servers and event environments.
