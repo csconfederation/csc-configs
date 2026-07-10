@@ -63,6 +63,18 @@ Template for new entries:
 - **Breaking:** Description of breaking change (if any)
 -->
 
+### s20.4 — 2026-07-10
+
+**Plugins:**
+- MatchZy 0.8.15
+- CSC Plugin 0.2.0
+- Metamod:Source 1401
+- CounterStrikeSharp 1.0.368
+
+**Changes:**
+- Add `CscPlugin.json` to Scrim and Preseason templates (`addons/counterstrikesharp/plugins/CscPlugin/`), enabling `MapChangeMode` so players can run `!map <name>` / `!changemap <name>`.
+- Map aliases cover the standard pool with common shorthands (`d2`, `anc`, `inf`, `mir`, `op`, `over`, `vert`, plus full names); `office` intentionally excluded.
+
 ### s20.3 — 2026-06-12
 
 **Plugins:**
