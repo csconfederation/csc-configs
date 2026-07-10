@@ -36,12 +36,14 @@ Only `s{season}.{revision}` tags are release tags. `live` and `s{season}` are op
 
 All modes require the same plugin versions.
 
+Source of truth: [`manifest.yaml` in csconfederation/plugin-deploy](https://github.com/csconfederation/plugin-deploy/blob/main/manifest.yaml) — this table mirrors it and is updated at every release.
+
 | Plugin | Version | Required | Notes |
 |--------|---------|----------|-------|
-| MatchZy | [0.8.15](https://github.com/shobhit-pathak/MatchZy/releases/tag/0.8.15) | Yes | Core match management |
+| MatchZy | [0.8.15-cssharp-1.0.371](https://github.com/csconfederation/MatchZy/releases/tag/0.8.15-cssharp-1.0.371) | Yes | Core match management — temporary CSC fork of upstream 0.8.15, rebuilt against CS# 1.0.371; revert to shobhit-pathak/MatchZy once upstream releases on CS# ≥ 1.0.371 |
 | CSC Plugin | [0.2.0](https://github.com/csconfederation/csc-plugin/releases/tag/v0.2.0) | Yes | CSC server integration |
-| Metamod:Source | [1401](https://github.com/alliedmodders/metamod-source/tree/efeabcf63d26889af54f298e2a68ea43) | Yes | Plugin framework |
-| CounterStrikeSharp | [1.0.368](https://github.com/roflmuffin/CounterStrikeSharp/releases/tag/v1.0.368) | Yes | MatchZy dependency |
+| Metamod:Source | [2.0.0-git1403](https://mms.alliedmods.net/mmsdrop/2.0/mmsource-2.0.0-git1403-linux.tar.gz) | Yes | Plugin framework |
+| CounterStrikeSharp | [1.0.371](https://github.com/roflmuffin/CounterStrikeSharp/releases/tag/v1.0.371) | Yes | MatchZy dependency; includes the July 9 CS2 update gamedata fix |
 
 ---
 
@@ -66,10 +68,10 @@ Template for new entries:
 ### s20.4 — 2026-07-10
 
 **Plugins:**
-- MatchZy 0.8.15
+- MatchZy 0.8.15-cssharp-1.0.371 (CSC fork)
 - CSC Plugin 0.2.0
-- Metamod:Source 1401
-- CounterStrikeSharp 1.0.368
+- Metamod:Source 2.0.0-git1403
+- CounterStrikeSharp 1.0.371
 
 **Changes:**
 - Add `CscPlugin.json` to Scrim and Preseason templates (`addons/counterstrikesharp/plugins/CscPlugin/`), enabling `MapChangeMode` so players can run `!map <name>` / `!changemap <name>`.
