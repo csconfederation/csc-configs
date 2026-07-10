@@ -1,0 +1,25 @@
+{
+  "MapChangeMode": true,
+  "MapAliases": {
+    "anc": "de_ancient",
+    "ancient": "de_ancient",
+    "anubis": "de_anubis",
+    "cache": "de_cache",
+    "d2": "de_dust2",
+    "dust": "de_dust2",
+    "dust2": "de_dust2",
+    "inf": "de_inferno",
+    "inferno": "de_inferno",
+    "italy": "cs_italy",
+    "mir": "de_mirage",
+    "mirage": "de_mirage",
+    "nuke": "de_nuke",
+    "office": "cs_office",
+    "op": "de_overpass",
+    "over": "de_overpass",
+    "overpass": "de_overpass",
+    "train": "de_train",
+    "vert": "de_vertigo",
+    "vertigo": "de_vertigo"
+  }
+}

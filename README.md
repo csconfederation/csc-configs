@@ -19,14 +19,18 @@ configs/
 │           ├── live_override.cfg
 │           └── warmup.cfg
 ├── Scrim/
-│   └── cfg/
-│       └── ...
+│   ├── cfg/
+│   │   └── ...
+│   └── addons/counterstrikesharp/plugins/CscPlugin/
+│       └── CscPlugin.json
 ├── Combine/
 │   └── cfg/
 │       └── ...
 └── Preseason/
-    └── cfg/
-        └── ...
+    ├── cfg/
+    │   └── ...
+    └── addons/counterstrikesharp/plugins/CscPlugin/
+        └── CscPlugin.json
 tools/
 ├── update_headers.sh
 ├── cfg_linter.sh
@@ -45,6 +49,7 @@ Each mode is self-contained with its own config chain and MatchZy files.
 - **`gamemode_competitive_server.cfg`** — executed by the server when the **gamemode** is set (competitive).
 - **`MatchZy/live_override.cfg`** — executed **after all players ready up** and MatchZy applies its live settings.
 - **`MatchZy/warmup.cfg`** — executed when the plugin loads for warmup.
+- **`addons/counterstrikesharp/plugins/CscPlugin/CscPlugin.json`** *(Scrim and Preseason only)* — read by the [csc-plugin](https://github.com/csconfederation/csc-plugin) on load. Enables `MapChangeMode` so any player can run `!map <name>` / `!changemap <name>`, with common short map names aliased to their engine names (e.g. `mirage` → `de_mirage`). JSON files are not header-stamped or linted.
 
 > Each Counter-Strike config includes a standardized header and a final `say` line for on-server version verification, except `MatchZy/config.cfg`.
 

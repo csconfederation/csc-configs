@@ -1,6 +1,6 @@
 # AGENTS.md — csc-configs
 
-CS2 game-server configs for the CSC league. Five modes live under `configs/<Mode>/cfg/`: `Match`, `Scrim`, `Combine`, `Preseason`, `1v1`. Each mode has `server.cfg`, `gamemode_competitive_server.cfg`, and `MatchZy/` plugin configs (`config.cfg`, `live_override.cfg`, `warmup.cfg`). All automation is local shell — no runtime dependencies.
+CS2 game-server configs for the CSC league. Five modes live under `configs/<Mode>/cfg/`: `Match`, `Scrim`, `Combine`, `Preseason`, `1v1`. Each mode has `server.cfg`, `gamemode_competitive_server.cfg`, and `MatchZy/` plugin configs (`config.cfg`, `live_override.cfg`, `warmup.cfg`). Scrim and Preseason additionally ship `configs/<Mode>/addons/counterstrikesharp/plugins/CscPlugin/CscPlugin.json` — a csc-plugin config enabling player-driven map changes (`MapChangeMode` + `MapAliases`); it is JSON, so the header/lint tooling ignores it. All automation is local shell — no runtime dependencies.
 
 ## Setup
 
