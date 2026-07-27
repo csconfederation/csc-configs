@@ -41,9 +41,10 @@ Source of truth: [`manifest.yaml` in csconfederation/plugin-deploy](https://gith
 | Plugin | Version | Required | Notes |
 |--------|---------|----------|-------|
 | MatchZy | [0.8.15-cssharp-1.0.371](https://github.com/csconfederation/MatchZy/releases/tag/0.8.15-cssharp-1.0.371) | Yes | Core match management — temporary CSC fork of upstream 0.8.15, rebuilt against CS# 1.0.371; revert to shobhit-pathak/MatchZy once upstream releases on CS# ≥ 1.0.371 |
-| CSC Plugin | [0.2.0](https://github.com/csconfederation/csc-plugin/releases/tag/v0.2.0) | Yes | CSC server integration |
-| Metamod:Source | [2.0.0-git1403](https://mms.alliedmods.net/mmsdrop/2.0/mmsource-2.0.0-git1403-linux.tar.gz) | Yes | Plugin framework |
+| CSC Plugin | [0.2.1](https://github.com/csconfederation/csc-plugin/releases/tag/v0.2.1) | Yes | CSC server integration |
+| Metamod:Source | [2.0.0-git1410](https://github.com/alliedmodders/metamod-source/releases/tag/2.0.0.1410) | Yes | Plugin framework |
 | CounterStrikeSharp | [1.0.371](https://github.com/roflmuffin/CounterStrikeSharp/releases/tag/v1.0.371) | Yes | MatchZy dependency; includes the July 9 CS2 update gamedata fix |
+| CS2FOW | [0.3.1](https://github.com/karola3vax/CS2FOW/releases/tag/v0.3.1) | No | Server-side fog-of-war visibility culling (anti-wallhack); Combine template only, rollout canary — other modes carry an explicit `remove: [cs2fow]` in plugin-deploy |
 
 ---
 
@@ -64,6 +65,20 @@ Template for new entries:
 - Description of change
 - **Breaking:** Description of breaking change (if any)
 -->
+
+### s20.5 — 2026-07-27
+
+**Plugins:**
+- MatchZy 0.8.15-cssharp-1.0.371 (CSC fork)
+- CSC Plugin 0.2.1
+- Metamod:Source 2.0.0-git1410
+- CounterStrikeSharp 1.0.371
+- CS2FOW 0.3.1 (Combine only)
+
+**Changes:**
+- Sync plugin dependency table with plugin-deploy's `manifest.yaml`: bump CSC Plugin 0.2.0 → 0.2.1 and Metamod:Source git1403 → git1410.
+- Add CS2FOW as a tracked plugin dependency (previously untracked here). It ships only on the Combine template as a rollout canary; Match/Scrim/Preseason explicitly remove it.
+- No config file changes in this revision — plugin-deploy owns the actual server-side plugin builds this document tracks.
 
 ### s20.4 — 2026-07-10
 
