@@ -6,7 +6,7 @@ _Generated automatically. Shows only settings where at least one mode differs._
 
 | Setting | Match | Scrim | Combine | Preseason | 1v1 |
 |---|---|---|---|---|---|
-| `say` | "> CSC Match Config Loaded \| server.cfg \| 29dae7f \| 2026-06-12 <" | "> CSC Scrim Config Loaded \| server.cfg \| 29dae7f \| 2026-06-12 <" | "> CSC Combine Config Loaded \| server.cfg \| 29dae7f \| 2026-06-12 <" | "> CSC Preseason Config Loaded \| server.cfg \| 29dae7f \| 2026-06-12 <" | "> CSC 1v1 Config Loaded \| server.cfg \| 29dae7f \| 2026-06-12 <" |
+| `say` | "> CSC Match Config Loaded \| server.cfg \| fc4c201 \| 2026-07-28 <" | "> CSC Scrim Config Loaded \| server.cfg \| fc4c201 \| 2026-07-28 <" | "> CSC Combine Config Loaded \| server.cfg \| fc4c201 \| 2026-07-28 <" | "> CSC Preseason Config Loaded \| server.cfg \| fc4c201 \| 2026-07-28 <" | "> CSC 1v1 Config Loaded \| server.cfg \| fc4c201 \| 2026-07-28 <" |
 | `tv_delay` | 120 // Broadcast delay in seconds. Default: 10–30; CSC: 0 for scrim/combine/preseason, 120 for match | 0 // Broadcast delay in seconds. CSC non-match standard: zero delay. Default: 10–30 | 0 // Broadcast delay in seconds. CSC non-match standard: zero delay. Default: 10–30 | 0 // Broadcast delay in seconds. CSC non-match standard: zero delay. Default: 10–30 | 0 // Broadcast delay in seconds. CSC non-match standard: zero delay. Default: 10–30 |
 
 ## cfg/gamemode_competitive_server.cfg
@@ -37,10 +37,30 @@ _Generated automatically. Shows only settings where at least one mode differs._
 | `mp_team_timeout_ot_add_once` | "0" // Grant OT timeouts only once? Default: 0 | "0" // Grant OT timeouts only once? Default: 0 | "0" // Grant OT timeouts only once? Default: 0 | "0" // Grant OT timeouts only once? Default: 0 | "0" // No one-time OT timeout grant. Default: 0 |
 | `mp_team_timeout_ot_max` | "4" // Max OT timeouts per team. Default: 4 | "4" // Max OT timeouts per team. Default: 4 | "4" // Max OT timeouts per team. Default: 4 | "4" // Max OT timeouts per team. Default: 4 | "0" // No OT timeouts in 1v1. Default: 4 |
 | `mp_teammates_are_enemies` | "0" // Teammates can damage each other? 0 = no. Default: 0 | "0" // Teammates can damage each other? 0 = no. Default: 0 | "0" // Teammates can damage each other? 0 = no. Default: 0 | "0" // Teammates can damage each other? 0 = no. Default: 0 | "0" // Teammates cannot damage each other. Default: 0 |
-| `say` | "> CSC Match Config Loaded \| gamemode_competitive_server.cfg \| 29dae7f \| 2026-06-12 <" | "> CSC Scrim Config Loaded \| gamemode_competitive_server.cfg \| 29dae7f \| 2026-06-12 <" | "> CSC Combine Config Loaded \| gamemode_competitive_server.cfg \| 29dae7f \| 2026-06-12 <" | "> CSC Preseason Config Loaded \| gamemode_competitive_server.cfg \| 29dae7f \| 2026-06-12 <" | "> CSC 1v1 Config Loaded \| gamemode_competitive_server.cfg \| 29dae7f \| 2026-06-12 <" |
+| `say` | "> CSC Match Config Loaded \| gamemode_competitive_server.cfg \| fc4c201 \| 2026-07-28 <" | "> CSC Scrim Config Loaded \| gamemode_competitive_server.cfg \| fc4c201 \| 2026-07-28 <" | "> CSC Combine Config Loaded \| gamemode_competitive_server.cfg \| fc4c201 \| 2026-07-28 <" | "> CSC Preseason Config Loaded \| gamemode_competitive_server.cfg \| fc4c201 \| 2026-07-28 <" | "> CSC 1v1 Config Loaded \| gamemode_competitive_server.cfg \| fc4c201 \| 2026-07-28 <" |
 | `sv_auto_full_alltalk_during_warmup_half_end` | "0" // Disable all-talk during warmup and half-end. Default: 0 | "1" // Enable all-talk during warmup and halftime. Default: 0 | "1" // Enable all-talk during warmup and halftime. Default: 0 | "1" // Enable all-talk during warmup and halftime. Default: 0 | "0" // Disable all-talk during halftime. Default: 0 |
 | `sv_deadtalk` | "0" // Dead players can’t talk to living players. Default: 1 | "0" // Dead players can’t talk to living players. Default: 1 | "0" // Dead players can’t talk to living players. Default: 1 | "0" // Dead players can’t talk to living players. Default: 1 | "0" // Dead players can't talk to living players. Default: 1 |
 | `tv_delay` | "120" // GOTV broadcast delay (seconds). CSC standard for matches. Default: ~10–30 | "0" // GOTV broadcast delay (seconds). CSC non-match standard: zero delay. Default: ~10–30 | "0" // GOTV broadcast delay (seconds). CSC non-match standard: zero delay. Default: ~10–30 | "0" // GOTV broadcast delay (seconds). CSC non-match standard: zero delay. Default: ~10–30 | "0" // GOTV broadcast delay (seconds). Default: ~10–30 |
+
+## cfg/cs2fow.cfg
+
+| Setting | Match | Scrim | Combine | Preseason | 1v1 |
+|---|---|---|---|---|---|
+| `cs2fow_debug` |  |  | 0 // Records withheld-entity evidence into a 256-entry ring buffer. Costs an |  |  |
+| `cs2fow_debug_los_player` |  |  | 0 // MUST stay 0. Any non-zero value triggers an out-of-bounds stack read in |  |  |
+| `cs2fow_enable` |  |  | 1 // Live kill switch; takes effect without a restart or map change. Default: 1 |  |  |
+| `cs2fow_filter_teammates` |  |  | 0 // Never filter teammates: it removes radar/nameplates and doubles the |  |  |
+| `cs2fow_he_clear_radius_units` |  |  | 100 // Inert while smoke_occlusion is 0. Kept at default so re-enabling |  |  |
+| `cs2fow_he_clear_seconds` |  |  | 2.5 // Inert while smoke_occlusion is 0. Range 0-10. Default: 2.5 |  |  |
+| `cs2fow_max_shoulder_units` |  |  | 128 // Ceiling for the ping-scaled origins. Range 0-256. Default: 128 |  |  |
+| `cs2fow_shoulder_base_units` |  |  | 128 // Pinned equal to max_shoulder_units below. Shoulder origins are extra |  |  |
+| `cs2fow_shoulder_rtt_scale` |  |  | 0.4 // Inert while base == max (the result is clamped to [base, max]). |  |  |
+| `cs2fow_smoke_occlusion` |  |  | 0 // Off deliberately. With smoke active the LOS test switches to 32x32 |  |  |
+| `cs2fow_update_interval_ms` |  |  | 1 // Capture every tick. A floor checked once per game frame, NOT a rate; |  |  |
+| `cs2fow_visibility_hold_ms` |  |  | 200 // Once revealed, keep a player revealed this long. Raised from 47. |  |  |
+| `cs2fow_worker_threads` |  |  | 2 // Worker threads. Applies on map activation only, not immediately. |  |  |
+| `say` |  |  | "> CSC Combine Config Loaded \| cs2fow.cfg \| fc4c201 \| 2026-07-28 <" |  |  |
+| `sv_enable_donttransmit` |  |  | 0 // Required by CS2FOW's paired send-list handling. Upstream ships this |  |  |
 
 ## cfg/MatchZy/config.cfg
 
@@ -55,7 +75,7 @@ _Generated automatically. Shows only settings where at least one mode differs._
 
 | Setting | Match | Scrim | Combine | Preseason | 1v1 |
 |---|---|---|---|---|---|
-| `say` | "> CSC Match is Live \| live_override.cfg \| 29dae7f \| 2026-06-12 <" | "> CSC Scrim is Live \| live_override.cfg \| 29dae7f \| 2026-06-12 <" | "> CSC Combine is Live \| live_override.cfg \| 29dae7f \| 2026-06-12 <" | "> CSC Preseason is Live \| live_override.cfg \| 29dae7f \| 2026-06-12 <" | "> CSC 1v1 is Live \| live_override.cfg \| 29dae7f \| 2026-06-12 <" |
+| `say` | "> CSC Match is Live \| live_override.cfg \| fc4c201 \| 2026-07-28 <" | "> CSC Scrim is Live \| live_override.cfg \| fc4c201 \| 2026-07-28 <" | "> CSC Combine is Live \| live_override.cfg \| fc4c201 \| 2026-07-28 <" | "> CSC Preseason is Live \| live_override.cfg \| fc4c201 \| 2026-07-28 <" | "> CSC 1v1 is Live \| live_override.cfg \| fc4c201 \| 2026-07-28 <" |
 
 ## cfg/MatchZy/warmup.cfg
 
@@ -69,6 +89,6 @@ _Generated automatically. Shows only settings where at least one mode differs._
 | `mp_maxrounds` | 24 // Max rounds if warmup transitions into live play. Default: 30 | 24 // Max rounds if warmup transitions into live play. Default: 30 | 24 // Max rounds if warmup transitions into live play. Default: 30 | 24 // Max rounds if warmup transitions into live play. Default: 30 | 24 // Max rounds. Default: 30 |
 | `mp_t_default_primary` | "weapon_ak47" // T default primary (warmup testing). Default: "" | "weapon_ak47" // T default primary (warmup testing). Default: "" | "weapon_ak47" // T default primary (warmup testing). Default: "" | "weapon_ak47" // T default primary (warmup testing). Default: "" | "weapon_ak47" // T default primary (warmup). Default: "" |
 | `mp_teammates_are_enemies` | "0" // Friendly fire/TSK disabled. Default: 0 | "0" // Friendly fire/TSK disabled. Default: 0 | "0" // Friendly fire/TSK disabled. Default: 0 | "0" // Friendly fire/TSK disabled. Default: 0 | "0" // No friendly fire. Default: 0 |
-| `say` | "> CSC Match Config Loaded \| warmup.cfg \| 29dae7f \| 2026-06-12 <" | "> CSC Scrim Config Loaded \| warmup.cfg \| 29dae7f \| 2026-06-12 <" | "> CSC Combine Config Loaded \| warmup.cfg \| 29dae7f \| 2026-06-12 <" | "> CSC Preseason Config Loaded \| warmup.cfg \| 29dae7f \| 2026-06-12 <" | "> CSC 1v1 Config Loaded \| warmup.cfg \| 29dae7f \| 2026-06-12 <" |
+| `say` | "> CSC Match Config Loaded \| warmup.cfg \| fc4c201 \| 2026-07-28 <" | "> CSC Scrim Config Loaded \| warmup.cfg \| fc4c201 \| 2026-07-28 <" | "> CSC Combine Config Loaded \| warmup.cfg \| fc4c201 \| 2026-07-28 <" | "> CSC Preseason Config Loaded \| warmup.cfg \| fc4c201 \| 2026-07-28 <" | "> CSC 1v1 Config Loaded \| warmup.cfg \| fc4c201 \| 2026-07-28 <" |
 | `sv_full_alltalk` | 0 // No always-on full alltalk. Default: 0 | 1 // Enable full all-talk during warmup. Default: 0 | 1 // Enable full all-talk during warmup. Default: 0 | 1 // Enable full all-talk during warmup. Default: 0 | 1 // Enable full all-talk during warmup. Default: 0 |
 
