@@ -66,7 +66,14 @@ Template for new entries:
 - **Breaking:** Description of breaking change (if any)
 -->
 
-### Unreleased
+### s21.0 — 2026-07-28
+
+**Plugins:**
+- MatchZy 0.8.15-cssharp-1.0.371 (CSC fork)
+- CSC Plugin 0.2.1
+- Metamod:Source 2.0.0-git1410
+- CounterStrikeSharp 1.0.371
+- CS2FOW 0.3.1 (Combine only)
 
 **Changes:**
 - Add `configs/Combine/cfg/cs2fow.cfg` — the first CSC-owned CS2FOW config. CS2FOW execs
