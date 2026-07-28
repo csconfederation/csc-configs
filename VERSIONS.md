@@ -76,11 +76,13 @@ Template for new entries:
 - Settings are deliberately biased toward failing open (revealing players rather than hiding them)
   and toward lower server cost, not toward maximum anti-wallhack coverage:
   `cs2fow_smoke_occlusion 0`, `cs2fow_visibility_hold_ms 200`,
-  `cs2fow_shoulder_base_units`/`cs2fow_max_shoulder_units` both 128, `cs2fow_update_interval_ms 16`.
+  `cs2fow_shoulder_base_units`/`cs2fow_max_shoulder_units` both 128, `cs2fow_update_interval_ms 1`.
   Rationale for each is inline in the file.
-- `cs2fow_update_interval_ms` is a per-frame floor, not a rate. CS2 runs at 64 tick (15.625ms
-  frames), which makes the knob effectively binary: <= 15 captures every tick, 16-31 every other
-  tick. 16 halves the per-tick game-thread cost at the price of one tick of reveal latency.
+- `cs2fow_update_interval_ms` stays at 1 (capture every tick) deliberately, and the file documents
+  why it must not be raised to save CPU: `CheckTransmit` applies the worker's last published result
+  verbatim rather than computing visibility, and the 100ms staleness gate only bounds how long a
+  stale *hide* persists — nothing reveals a player early. The capture interval is therefore the
+  worst-case time-to-reveal, and an enemy exposed but unsent for even one tick is not acceptable.
 - `sv_enable_donttransmit 0` is carried into this file. It is required by CS2FOW and was previously
   supplied by the upstream cfg; overriding without it would silently revert engine transmit behavior.
 - `tools/generate_mode_diffs.sh`: add `cfg/cs2fow.cfg` to the compared file list, so `modes.md`
