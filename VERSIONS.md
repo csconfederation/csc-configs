@@ -66,6 +66,25 @@ Template for new entries:
 - **Breaking:** Description of breaking change (if any)
 -->
 
+### Unreleased
+
+**Changes:**
+- Add `configs/Combine/cfg/cs2fow.cfg` — the first CSC-owned CS2FOW config. CS2FOW execs
+  `cfg/cs2fow.cfg` by name at load and again on every `OnLevelInit`, and plugin-deploy overlays
+  csc-configs on top of the plugin archive, so this file now fully overrides the upstream-shipped
+  defaults. Previously Combine ran upstream's cfg unmodified.
+- Settings are deliberately biased toward failing open (revealing players rather than hiding them)
+  and toward lower server cost, not toward maximum anti-wallhack coverage:
+  `cs2fow_smoke_occlusion 0`, `cs2fow_visibility_hold_ms 200`,
+  `cs2fow_shoulder_base_units`/`cs2fow_max_shoulder_units` both 128, `cs2fow_update_interval_ms 8`.
+  Rationale for each is inline in the file.
+- `sv_enable_donttransmit 0` is carried into this file. It is required by CS2FOW and was previously
+  supplied by the upstream cfg; overriding without it would silently revert engine transmit behavior.
+- `tools/generate_mode_diffs.sh`: add `cfg/cs2fow.cfg` to the compared file list, so `modes.md`
+  reflects it. Mode-local files are skipped silently for modes that don't ship them.
+- No change to Match/Scrim/Preseason/1v1 — they carry `remove: [cs2fow]` in plugin-deploy and
+  intentionally ship no cs2fow.cfg.
+
 ### s20.5 — 2026-07-27
 
 **Plugins:**

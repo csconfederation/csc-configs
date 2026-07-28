@@ -9,6 +9,7 @@ MODES=("Match" "Scrim" "Combine" "Preseason" "1v1")
 FILES=(
   "cfg/server.cfg"
   "cfg/gamemode_competitive_server.cfg"
+  "cfg/cs2fow.cfg"
   "cfg/MatchZy/config.cfg"
   "cfg/MatchZy/live_override.cfg"
   "cfg/MatchZy/warmup.cfg"
