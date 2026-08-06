@@ -1,0 +1,66 @@
+name: Publish s21.0
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/publish-s21.0.yml
+      - VERSIONS.md
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    name: Tag, release, and promote s21.0
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the merge commit
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate release metadata
+        run: |
+          set -euo pipefail
+          first_release="$(grep -m1 '^### s[0-9].* — ' VERSIONS.md | cut -d' ' -f2)"
+          if [[ "$first_release" != "s21.0" ]]; then
+            echo "Expected the first changelog release to be s21.0, found: $first_release" >&2
+            exit 1
+          fi
+
+      - name: Create release and promote live
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: s21.0
+          TARGET_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          remote_release_sha="$(
+            git ls-remote origin "refs/tags/${RELEASE_TAG}^{}" |
+              awk 'NR == 1 { print $1 }'
+          )"
+
+          if [[ -z "$remote_release_sha" ]]; then
+            git tag -a "$RELEASE_TAG" -m "Season 21.0 release" "$TARGET_SHA"
+            git push origin "refs/tags/$RELEASE_TAG"
+          elif [[ "$remote_release_sha" != "$TARGET_SHA" ]]; then
+            echo "$RELEASE_TAG already points to $remote_release_sha, not $TARGET_SHA" >&2
+            exit 1
+          fi
+
+          if ! gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            gh release create "$RELEASE_TAG" \
+              --title "$RELEASE_TAG" \
+              --notes "Season 21.0 config release" \
+              --prerelease \
+              --verify-tag
+          fi
+
+          git tag -fa live -m "Promote $RELEASE_TAG to live" "${RELEASE_TAG}^{}"
+          git push origin refs/tags/live --force
