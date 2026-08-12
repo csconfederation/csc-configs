@@ -44,7 +44,6 @@ Source of truth: [`manifest.yaml` in csconfederation/plugin-deploy](https://gith
 | CSC Plugin | [0.2.1](https://github.com/csconfederation/csc-plugin/releases/tag/v0.2.1) | Yes | CSC server integration |
 | Metamod:Source | [2.0.0-git1410](https://github.com/alliedmodders/metamod-source/releases/tag/2.0.0.1410) | Yes | Plugin framework |
 | CounterStrikeSharp | [1.0.371](https://github.com/roflmuffin/CounterStrikeSharp/releases/tag/v1.0.371) | Yes | MatchZy dependency; includes the July 9 CS2 update gamedata fix |
-| CS2FOW | [0.3.1](https://github.com/karola3vax/CS2FOW/releases/tag/v0.3.1) | No | Server-side fog-of-war visibility culling (anti-wallhack); Combine template only, rollout canary — other modes carry an explicit `remove: [cs2fow]` in plugin-deploy |
 
 ---
 
@@ -65,6 +64,22 @@ Template for new entries:
 - Description of change
 - **Breaking:** Description of breaking change (if any)
 -->
+
+### Unreleased
+
+**Plugins:**
+- MatchZy 0.8.15-cssharp-1.0.371 (CSC fork)
+- CSC Plugin 0.2.1
+- Metamod:Source 2.0.0-git1410
+- CounterStrikeSharp 1.0.371
+
+**Changes:**
+- **Breaking:** Remove CS2FOW entirely — the plugin is discontinued. Delete
+  `configs/Combine/cfg/cs2fow.cfg` and `configs/FA-Colo/cfg/cs2fow.cfg`, drop it
+  from the Plugin Dependencies table above, and remove `cfg/cs2fow.cfg` from
+  `tools/generate_mode_diffs.sh`'s compared file list (`modes.md` regenerated
+  accordingly). Matches the plugin's removal from plugin-deploy's
+  `manifest.yaml`.
 
 ### s21.0 — 2026-07-28
 
