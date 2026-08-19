@@ -40,10 +40,10 @@ Source of truth: [`manifest.yaml` in csconfederation/plugin-deploy](https://gith
 
 | Plugin | Version | Required | Notes |
 |--------|---------|----------|-------|
-| MatchZy | [0.8.15-cssharp-1.0.371](https://github.com/csconfederation/MatchZy/releases/tag/0.8.15-cssharp-1.0.371) | Yes | Core match management — temporary CSC fork of upstream 0.8.15, rebuilt against CS# 1.0.371; revert to shobhit-pathak/MatchZy once upstream releases on CS# ≥ 1.0.371 |
+| MatchZy | [0.8.15-cssharp-1.0.372](https://github.com/csconfederation/MatchZy/releases/tag/0.8.15-cssharp-1.0.372) | Yes | Core match management — temporary CSC fork of upstream 0.8.15, rebuilt against CS# 1.0.372; revert to shobhit-pathak/MatchZy once upstream releases on CS# ≥ 1.0.372 |
 | CSC Plugin | [0.2.1](https://github.com/csconfederation/csc-plugin/releases/tag/v0.2.1) | Yes | CSC server integration |
 | Metamod:Source | [2.0.0-git1410](https://github.com/alliedmodders/metamod-source/releases/tag/2.0.0.1410) | Yes | Plugin framework |
-| CounterStrikeSharp | [1.0.371](https://github.com/roflmuffin/CounterStrikeSharp/releases/tag/v1.0.371) | Yes | MatchZy dependency; includes the July 9 CS2 update gamedata fix |
+| CounterStrikeSharp | [1.0.372](https://github.com/roflmuffin/CounterStrikeSharp/releases/tag/v1.0.372) | Yes | MatchZy dependency; additive-only release (Ray/Hull Trace API, schema definitions bump) |
 
 ---
 
@@ -68,10 +68,10 @@ Template for new entries:
 ### Unreleased
 
 **Plugins:**
-- MatchZy 0.8.15-cssharp-1.0.371 (CSC fork)
+- MatchZy 0.8.15-cssharp-1.0.372 (CSC fork)
 - CSC Plugin 0.2.1
 - Metamod:Source 2.0.0-git1410
-- CounterStrikeSharp 1.0.371
+- CounterStrikeSharp 1.0.372
 
 **Changes:**
 - **Breaking:** Remove CS2FOW entirely — the plugin is discontinued. Delete
@@ -80,6 +80,9 @@ Template for new entries:
   `tools/generate_mode_diffs.sh`'s compared file list (`modes.md` regenerated
   accordingly). Matches the plugin's removal from plugin-deploy's
   `manifest.yaml`.
+- Bump CounterStrikeSharp to 1.0.372 (additive-only upstream release) and
+  recompile the temporary MatchZy fork against it. No config changes.
+  Matches plugin-deploy PR [#19](https://github.com/csconfederation/plugin-deploy/pull/19).
 
 ### s21.0 — 2026-07-28
 
