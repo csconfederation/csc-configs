@@ -5,7 +5,7 @@ ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 cd "$ROOT"
 
 OUT="modes.md"
-MODES=("Match" "Scrim" "Combine" "Preseason" "1v1")
+MODES=("Match" "Scrim" "Combine" "Preseason" "1v1" "FA-Colo")
 FILES=(
   "cfg/server.cfg"
   "cfg/gamemode_competitive_server.cfg"
