@@ -16,7 +16,7 @@ All operate only on `configs/`. Run from repo root.
 
 - `tools/update_headers.sh` — stamps every `.cfg` header (`// Version: <short hash>`, `// Last Updated: <date>`) and footer `say` line with `git rev-parse --short HEAD` + today's date. Prepends the standard 6-line header and appends the footer if missing. Exception: `*/cfg/MatchZy/config.cfg` gets no footer (plugin config, no console output).
 - `tools/cfg_linter.sh` — validates all configs; reports every failure in one run (not fail-fast). Checks: 6-line `// ===` header block; `// Path:` present and NOT prefixed with `configs/` (mode-local, e.g. `Match/cfg/server.cfg`); `// Version:` and `// Last Updated:` within first 12 lines; no legacy banlist references (`banned_user.cfg`, `banned_ip.cfg`, `writeid`, `writeip`); footer `say` line present with correct filename (text is `CSC <Mode> Config Loaded`, except `live_override.cfg` uses `CSC <Mode> is Live`); header and footer versions match.
-- `tools/generate_mode_diffs.sh` — regenerates `modes.md`: for each of the five per-mode config files, compares key/value settings across all five modes and lists only settings where at least one mode differs. Missing files are skipped silently.
+- `tools/generate_mode_diffs.sh` — regenerates `modes.md`: for each of the five per-mode config files, compares key/value settings across all six modes and lists only settings where at least one mode differs. Missing files are skipped silently.
 
 ## Pre-commit hook
 

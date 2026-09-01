@@ -1,6 +1,6 @@
 # 🧩 CSC Config Repository
 
-This repository contains the **official Counter-Strike 2 (CS2)** configuration files for CSC server modes: **Match**, **Scrim**, **Combine**, and **Preseason**.
+This repository contains the **official Counter-Strike 2 (CS2)** configuration files for six CSC server modes: **Match**, **Scrim**, **Combine**, **Preseason**, **1v1**, and **FA-Colo**.
 
 All configuration files follow a unified, documented structure and are automatically version-stamped using Git commit metadata.
 
@@ -26,11 +26,17 @@ configs/
 ├── Combine/
 │   └── cfg/
 │       └── ...
-└── Preseason/
+├── Preseason/
     ├── cfg/
     │   └── ...
     └── addons/counterstrikesharp/plugins/CscPlugin/
         └── CscPlugin.json
+├── 1v1/
+│   └── cfg/
+│       └── ...
+└── FA-Colo/
+    └── cfg/
+        └── ...
 tools/
 ├── update_headers.sh
 ├── cfg_linter.sh
