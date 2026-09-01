@@ -41,9 +41,9 @@ Source of truth: [`manifest.yaml` in csconfederation/plugin-deploy](https://gith
 | Plugin | Version | Required | Notes |
 |--------|---------|----------|-------|
 | MatchZy | [0.8.15-cssharp-1.0.372](https://github.com/csconfederation/MatchZy/releases/tag/0.8.15-cssharp-1.0.372) | Yes | Core match management — temporary CSC fork of upstream 0.8.15, rebuilt against CS# 1.0.372; revert to shobhit-pathak/MatchZy once upstream releases on CS# ≥ 1.0.372 |
-| CSC Plugin | [0.2.1](https://github.com/csconfederation/csc-plugin/releases/tag/v0.2.1) | Yes | CSC server integration |
-| Metamod:Source | [2.0.0-git1410](https://github.com/alliedmodders/metamod-source/releases/tag/2.0.0.1410) | Yes | Plugin framework |
-| CounterStrikeSharp | [1.0.372](https://github.com/roflmuffin/CounterStrikeSharp/releases/tag/v1.0.372) | Yes | MatchZy dependency; additive-only release (Ray/Hull Trace API, schema definitions bump) |
+| CSC Plugin | [0.3.0](https://github.com/csconfederation/csc-plugin/releases/tag/v0.3.0) | Yes | CSC server integration |
+| Metamod:Source | [2.0.0-git1411](https://github.com/alliedmodders/metamod-source/releases/tag/2.0.0.1411) | Yes | Plugin framework |
+| CounterStrikeSharp | [1.0.373](https://github.com/roflmuffin/CounterStrikeSharp/releases/tag/v1.0.373) | Yes | MatchZy dependency; updates for the CS2 1.41.7.7 game update |
 
 ---
 
@@ -67,22 +67,25 @@ Template for new entries:
 
 ### Unreleased
 
+### s21.1 — 2026-09-01
+
 **Plugins:**
 - MatchZy 0.8.15-cssharp-1.0.372 (CSC fork)
-- CSC Plugin 0.2.1
-- Metamod:Source 2.0.0-git1410
-- CounterStrikeSharp 1.0.372
+- CSC Plugin 0.3.0
+- Metamod:Source 2.0.0-git1411
+- CounterStrikeSharp 1.0.373
 
 **Changes:**
-- **Breaking:** Remove CS2FOW entirely — the plugin is discontinued. Delete
-  `configs/Combine/cfg/cs2fow.cfg` and `configs/FA-Colo/cfg/cs2fow.cfg`, drop it
-  from the Plugin Dependencies table above, and remove `cfg/cs2fow.cfg` from
-  `tools/generate_mode_diffs.sh`'s compared file list (`modes.md` regenerated
-  accordingly). Matches the plugin's removal from plugin-deploy's
-  `manifest.yaml`.
-- Bump CounterStrikeSharp to 1.0.372 (additive-only upstream release) and
-  recompile the temporary MatchZy fork against it. No config changes.
-  Matches plugin-deploy PR [#19](https://github.com/csconfederation/plugin-deploy/pull/19).
+- **Breaking:** Remove the discontinued CS2FOW plugin and its Combine/FA-Colo
+  configuration, including the `cfg/cs2fow.cfg` entry from the generated mode
+  comparison.
+- Update CounterStrikeSharp to 1.0.373 for CS2 1.41.7.7 and Metamod:Source to
+  2.0.0-git1411 (built from upstream commit
+  `7ec0f16948ab3a0910a98b4ac10e1c0e360d5339`).
+- Update the CSC MatchZy fork to 0.8.15-cssharp-1.0.372 and CSC Plugin to
+  0.3.0, matching plugin-deploy's manifest.
+- Regenerate `modes.md` with FA-Colo and refresh all config version stamps for
+  this release.
 
 ### s21.0 — 2026-07-28
 
