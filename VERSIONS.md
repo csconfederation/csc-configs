@@ -34,16 +34,20 @@ Only `s{season}.{revision}` tags are release tags. `live` and `s{season}` are op
 
 ## Plugin Dependencies
 
-All modes require the same plugin versions.
+Metamod:Source and CSC Plugin are shared by the deployed templates. Preseason
+uses separate CounterStrikeSharp and MatchZy test builds for the September 2026
+CS2 update; the other templates retain their existing versions.
 
 Source of truth: [`manifest.yaml` in csconfederation/plugin-deploy](https://github.com/csconfederation/plugin-deploy/blob/main/manifest.yaml) — this table mirrors it and is updated at every release.
 
-| Plugin | Version | Required | Notes |
-|--------|---------|----------|-------|
-| MatchZy | [0.8.15-cssharp-1.0.372](https://github.com/csconfederation/MatchZy/releases/tag/0.8.15-cssharp-1.0.372) | Yes | Core match management — temporary CSC fork of upstream 0.8.15, rebuilt against CS# 1.0.372; revert to shobhit-pathak/MatchZy once upstream releases on CS# ≥ 1.0.372 |
-| CSC Plugin | [0.3.0](https://github.com/csconfederation/csc-plugin/releases/tag/v0.3.0) | Yes | CSC server integration |
-| Metamod:Source | [2.0.0-git1411](https://github.com/alliedmodders/metamod-source/releases/tag/2.0.0.1411) | Yes | Plugin framework |
-| CounterStrikeSharp | [1.0.373](https://github.com/roflmuffin/CounterStrikeSharp/releases/tag/v1.0.373) | Yes | MatchZy dependency; updates for the CS2 1.41.7.7 game update |
+| Plugin | Version | Templates | Notes |
+|--------|---------|-----------|-------|
+| MatchZy | [0.8.15-cssharp-1.0.372](https://github.com/csconfederation/MatchZy/releases/tag/0.8.15-cssharp-1.0.372) | Match, Scrim, Combine, FA-Colo | CSC fork built against CS# 1.0.372 |
+| MatchZy | [0.8.15-cssharp-1.0.375-46](https://github.com/csconfederation/MatchZy/releases/tag/0.8.15-cssharp-1.0.375-46) | Preseason | CSC test build against the matching CS# API |
+| CSC Plugin | [0.3.0](https://github.com/csconfederation/csc-plugin/releases/tag/v0.3.0) | All | CSC server integration |
+| Metamod:Source | [2.0.0-git1469](https://github.com/alliedmodders/metamod-source/releases/tag/2.0.0.1469) | All | KHook-capable plugin framework; built from `fa6f80e4662e5b96cc2e97722d812f374581dfd8` |
+| CounterStrikeSharp | [1.0.373](https://github.com/roflmuffin/CounterStrikeSharp/releases/tag/v1.0.373) | Match, Scrim, Combine, FA-Colo | Existing CS2 1.41.7.7 release |
+| CounterStrikeSharp | [1.0.375-46](https://github.com/ehwhattaugonnado/CounterStrikeSharp/releases/tag/v1.0.375-csc.1) | Preseason | CSC test build with upstream PRs #1433, #1430, and #1431 |
 
 ---
 
@@ -67,6 +71,17 @@ Template for new entries:
 
 ### Unreleased
 
+No changes yet.
+
+### s21.2 — 2026-09-23
+
+**Plugins:**
+- MatchZy 0.8.15-cssharp-1.0.375-46 on Preseason; 0.8.15-cssharp-1.0.372 elsewhere
+- CSC Plugin 0.3.0
+- Metamod:Source 2.0.0-git1469 on all templates
+- CounterStrikeSharp 1.0.375-46 on Preseason; 1.0.373 elsewhere
+
+**Changes:**
 - Configure `sv_logfile` and `sv_logsdir` before `log on` in every mode so the
   file logger has its destination when logging starts. Use `logs` without a
   trailing slash; the old value produced `logs//` in file headers. This is a
@@ -74,6 +89,9 @@ Template for new entries:
   fresh CS2 server.
 - Remove `tv_snapshotrate` and `tv_show_allchat` from every `server.cfg` because
   the current game build reports both as unknown commands.
+- Align the version document with the Metamod 1469 rollout and Preseason-only
+  CounterStrikeSharp/MatchZy test builds. The plugin binaries themselves are
+  pinned and deployed by `plugin-deploy`.
 
 ### s21.1 — 2026-09-01
 
