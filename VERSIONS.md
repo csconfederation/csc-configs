@@ -74,6 +74,20 @@ Template for new entries:
 
 No changes yet.
 
+### s21.4 — 2026-09-23
+
+**Plugins:**
+- MatchZy 0.8.15-cssharp-1.0.372 on Match, Scrim, Combine, and FA-Colo;
+  0.8.15-cssharp-1.0.375-46 on Preseason
+- CSC Plugin 0.3.0 on all templates
+- Metamod:Source 2.0.0-git1411 on Match, Scrim, Combine, and FA-Colo;
+  2.0.0-git1469 on Preseason
+- CounterStrikeSharp 1.0.373 on Match, Scrim, Combine, and FA-Colo;
+  1.0.375-46 on Preseason
+
+**Changes:**
+- Enable `cl_show_clan_in_death_notice` in all six game mode configs.
+
 ### s21.3 — 2026-09-23
 
 **Plugins:**
