@@ -34,9 +34,9 @@ Only `s{season}.{revision}` tags are release tags. `live` and `s{season}` are op
 
 ## Plugin Dependencies
 
-Metamod:Source and CSC Plugin are shared by the deployed templates. Preseason
-uses separate CounterStrikeSharp and MatchZy test builds for the September 2026
-CS2 update; the other templates retain their existing versions.
+CSC Plugin is shared by the deployed templates. Preseason uses separate
+Metamod:Source, CounterStrikeSharp, and MatchZy test builds for the September
+2026 CS2 update; the other templates retain their existing versions.
 
 Source of truth: [`manifest.yaml` in csconfederation/plugin-deploy](https://github.com/csconfederation/plugin-deploy/blob/main/manifest.yaml) — this table mirrors it and is updated at every release.
 
@@ -45,7 +45,8 @@ Source of truth: [`manifest.yaml` in csconfederation/plugin-deploy](https://gith
 | MatchZy | [0.8.15-cssharp-1.0.372](https://github.com/csconfederation/MatchZy/releases/tag/0.8.15-cssharp-1.0.372) | Match, Scrim, Combine, FA-Colo | CSC fork built against CS# 1.0.372 |
 | MatchZy | [0.8.15-cssharp-1.0.375-46](https://github.com/csconfederation/MatchZy/releases/tag/0.8.15-cssharp-1.0.375-46) | Preseason | CSC test build against the matching CS# API |
 | CSC Plugin | [0.3.0](https://github.com/csconfederation/csc-plugin/releases/tag/v0.3.0) | All | CSC server integration |
-| Metamod:Source | [2.0.0-git1469](https://github.com/alliedmodders/metamod-source/releases/tag/2.0.0.1469) | All | KHook-capable plugin framework; built from `fa6f80e4662e5b96cc2e97722d812f374581dfd8` |
+| Metamod:Source | [2.0.0-git1411](https://github.com/alliedmodders/metamod-source/releases/tag/2.0.0.1411) | Match, Scrim, Combine, FA-Colo | Existing framework for CS# 1.0.373 |
+| Metamod:Source | [2.0.0-git1469](https://github.com/alliedmodders/metamod-source/releases/tag/2.0.0.1469) | Preseason | KHook-capable framework; built from `fa6f80e4662e5b96cc2e97722d812f374581dfd8` |
 | CounterStrikeSharp | [1.0.373](https://github.com/roflmuffin/CounterStrikeSharp/releases/tag/v1.0.373) | Match, Scrim, Combine, FA-Colo | Existing CS2 1.41.7.7 release |
 | CounterStrikeSharp | [1.0.375-46](https://github.com/ehwhattaugonnado/CounterStrikeSharp/releases/tag/v1.0.375-csc.1) | Preseason | CSC test build with upstream PRs #1433, #1430, and #1431 |
 
@@ -72,6 +73,24 @@ Template for new entries:
 ### Unreleased
 
 No changes yet.
+
+### s21.3 — 2026-09-23
+
+**Plugins:**
+- MatchZy 0.8.15-cssharp-1.0.372 on Match, Scrim, Combine, and FA-Colo;
+  0.8.15-cssharp-1.0.375-46 on Preseason
+- CSC Plugin 0.3.0 on all templates
+- Metamod:Source 2.0.0-git1411 on Match, Scrim, Combine, and FA-Colo;
+  2.0.0-git1469 on Preseason
+- CounterStrikeSharp 1.0.373 on Match, Scrim, Combine, and FA-Colo;
+  1.0.375-46 on Preseason
+
+**Changes:**
+- Restore Metamod 1411 for templates with the older CS# build after the Scrim
+  Metamod 1469 canary failed to load MatchZy and CscPlugin. Preseason keeps
+  Metamod 1469 with its newer CS# test build.
+- Keep the logging and `tv_*` config fixes released in s21.2; no config files
+  changed in this release.
 
 ### s21.2 — 2026-09-23
 
