@@ -67,6 +67,14 @@ Template for new entries:
 
 ### Unreleased
 
+- Configure `sv_logfile` and `sv_logsdir` before `log on` in every mode so the
+  file logger has its destination when logging starts. Use `logs` without a
+  trailing slash; the old value produced `logs//` in file headers. This is a
+  precaution based on the September 23 startup log, pending validation on a
+  fresh CS2 server.
+- Remove `tv_snapshotrate` and `tv_show_allchat` from every `server.cfg` because
+  the current game build reports both as unknown commands.
+
 ### s21.1 — 2026-09-01
 
 **Plugins:**
