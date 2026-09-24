@@ -34,21 +34,16 @@ Only `s{season}.{revision}` tags are release tags. `live` and `s{season}` are op
 
 ## Plugin Dependencies
 
-CSC Plugin is shared by the deployed templates. Preseason uses separate
-Metamod:Source, CounterStrikeSharp, and MatchZy test builds for the September
-2026 CS2 update; the other templates retain their existing versions.
+All five templates (Match, Scrim, Combine, Preseason, FA-Colo) run the same plugin set.
 
 Source of truth: [`manifest.yaml` in csconfederation/plugin-deploy](https://github.com/csconfederation/plugin-deploy/blob/main/manifest.yaml) — this table mirrors it and is updated at every release.
 
 | Plugin | Version | Templates | Notes |
 |--------|---------|-----------|-------|
-| MatchZy | [0.8.15-cssharp-1.0.372](https://github.com/csconfederation/MatchZy/releases/tag/0.8.15-cssharp-1.0.372) | Match, Scrim, Combine, FA-Colo | CSC fork built against CS# 1.0.372 |
-| MatchZy | [0.8.15-cssharp-1.0.375-46](https://github.com/csconfederation/MatchZy/releases/tag/0.8.15-cssharp-1.0.375-46) | Preseason | CSC test build against the matching CS# API |
+| MatchZy | [0.8.15-cssharp-1.0.375-46](https://github.com/csconfederation/MatchZy/releases/tag/0.8.15-cssharp-1.0.375-46) | All | CSC fork built against the CS# 1.0.375 API |
 | CSC Plugin | [0.3.0](https://github.com/csconfederation/csc-plugin/releases/tag/v0.3.0) | All | CSC server integration |
-| Metamod:Source | [2.0.0-git1411](https://github.com/alliedmodders/metamod-source/releases/tag/2.0.0.1411) | Match, Scrim, Combine, FA-Colo | Existing framework for CS# 1.0.373 |
-| Metamod:Source | [2.0.0-git1469](https://github.com/alliedmodders/metamod-source/releases/tag/2.0.0.1469) | Preseason | KHook-capable framework; built from `fa6f80e4662e5b96cc2e97722d812f374581dfd8` |
-| CounterStrikeSharp | [1.0.373](https://github.com/roflmuffin/CounterStrikeSharp/releases/tag/v1.0.373) | Match, Scrim, Combine, FA-Colo | Existing CS2 1.41.7.7 release |
-| CounterStrikeSharp | [1.0.375-46](https://github.com/ehwhattaugonnado/CounterStrikeSharp/releases/tag/v1.0.375-csc.1) | Preseason | CSC test build with upstream PRs #1433, #1430, and #1431 |
+| Metamod:Source | [2.0.0-git1469](https://github.com/alliedmodders/metamod-source/releases/tag/2.0.0.1469) | All | KHook-capable framework; built from `fa6f80e4662e5b96cc2e97722d812f374581dfd8`, the commit CS# 1.0.375 pins |
+| CounterStrikeSharp | [1.0.375](https://github.com/roflmuffin/CounterStrikeSharp/releases/tag/v1.0.375) | All | Upstream release for CS2 1.41.8.2 |
 
 ---
 
@@ -72,7 +67,19 @@ Template for new entries:
 
 ### Unreleased
 
-No changes yet.
+**Plugins:**
+- MatchZy 0.8.15-cssharp-1.0.375-46 on all templates
+- CSC Plugin 0.3.0 on all templates
+- Metamod:Source 2.0.0-git1469 on all templates
+- CounterStrikeSharp 1.0.375 on all templates
+
+**Changes:**
+- Update CounterStrikeSharp to upstream 1.0.375 (CS2 1.41.8.2) and Metamod:Source
+  to 2.0.0-git1469 on every template. This replaces the Preseason-only test
+  builds and the 1.0.373 / git1411 pins on Match, Scrim, Combine, and FA-Colo.
+  CS# 1.0.375 requires Metamod 1469 (KHook), so the two move together.
+- No config file changes; the plugin binaries are pinned and deployed by
+  `plugin-deploy`.
 
 ### s21.4 — 2026-09-23
 
