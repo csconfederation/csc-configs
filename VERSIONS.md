@@ -65,7 +65,7 @@ Template for new entries:
 - **Breaking:** Description of breaking change (if any)
 -->
 
-### Unreleased
+### s21.5 — 2026-09-24
 
 **Plugins:**
 - MatchZy 0.8.15-cssharp-1.0.375-csc.1 on all templates
@@ -84,8 +84,9 @@ Template for new entries:
   to 2.0.0-git1469 on every template. This replaces the Preseason-only test
   builds and the 1.0.373 / git1411 pins on Match, Scrim, Combine, and FA-Colo.
   CS# 1.0.375 requires Metamod 1469 (KHook), so the two move together.
-- No config file changes; the plugin binaries are pinned and deployed by
-  `plugin-deploy`.
+- Set an absolute `sv_logsdir` (`/home/dathost/cs2_linux/game/csgo/logs`) in all
+  six `server.cfg` files. The relative `logs` resolved under `csgo/addons/metamod/`
+  and silently wrote no log files.
 
 ### s21.4 — 2026-09-23
 
