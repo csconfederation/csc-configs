@@ -40,7 +40,7 @@ Source of truth: [`manifest.yaml` in csconfederation/plugin-deploy](https://gith
 
 | Plugin | Version | Templates | Notes |
 |--------|---------|-----------|-------|
-| MatchZy | [0.8.15-cssharp-1.0.375](https://github.com/csconfederation/MatchZy/releases/tag/0.8.15-cssharp-1.0.375) | All | CSC fork built against the official CS# 1.0.375 API package |
+| MatchZy | [0.8.15-cssharp-1.0.375-csc.1](https://github.com/csconfederation/MatchZy/releases/tag/0.8.15-cssharp-1.0.375-csc.1) | All | CSC fork built against the official CS# 1.0.375 API package; absolute `tv_record` path |
 | CSC Plugin | [0.3.0](https://github.com/csconfederation/csc-plugin/releases/tag/v0.3.0) | All | CSC server integration |
 | Metamod:Source | [2.0.0-git1469](https://github.com/alliedmodders/metamod-source/releases/tag/2.0.0.1469) | All | KHook-capable framework; built from `fa6f80e4662e5b96cc2e97722d812f374581dfd8`, the commit CS# 1.0.375 pins |
 | CounterStrikeSharp | [1.0.375](https://github.com/roflmuffin/CounterStrikeSharp/releases/tag/v1.0.375) | All | Upstream release for CS2 1.41.8.2 |
@@ -68,12 +68,15 @@ Template for new entries:
 ### Unreleased
 
 **Plugins:**
-- MatchZy 0.8.15-cssharp-1.0.375 on all templates
+- MatchZy 0.8.15-cssharp-1.0.375-csc.1 on all templates
 - CSC Plugin 0.3.0 on all templates
 - Metamod:Source 2.0.0-git1469 on all templates
 - CounterStrikeSharp 1.0.375 on all templates
 
 **Changes:**
+- MatchZy csc.1 records demos to an absolute `csgo/MatchZy/` path. The relative path
+  resolved under `csgo/addons/metamod/`, so demos failed to record
+  (csconfederation/MatchZy#9).
 - Rebuild the CSC MatchZy fork against the official upstream
   CounterStrikeSharp.API 1.0.375 package (previously the fork's 1.0.375-46 test
   package) and deploy it to every template.
