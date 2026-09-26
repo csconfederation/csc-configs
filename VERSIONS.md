@@ -65,6 +65,17 @@ Template for new entries:
 - **Breaking:** Description of breaking change (if any)
 -->
 
+### s21.7 — 2026-09-26
+
+**Plugins:**
+- MatchZy 0.8.15-cssharp-1.0.375-csc.3 on all templates
+- CSC Plugin 0.3.0 on all templates
+- Metamod:Source 2.0.0-git1469 on all templates
+- CounterStrikeSharp 1.0.375 on all templates
+
+**Changes:**
+- Remove `cl_show_clan_in_death_notice` from all six game mode configs.
+
 ### s21.6 — 2026-09-26
 
 **Plugins:**
