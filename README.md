@@ -216,16 +216,9 @@ Operational/reference tags:
 - `live` — mutable deployment pointer used by CSC-Core when pulling configs
 - `s{season}` — season reference tag (historical helper; not the deployment pointer)
 
+Merging a new top `### sNN.N` entry in `VERSIONS.md` to `main` publishes the release: `publish-release.yml` tags it, creates the GitHub Release, and moves `live`. Don't tag by hand.
+
 ```bash
-# Create immutable release tag + release
-git tag -a s20.0 -m "Season 20.0 release"
-git push origin s20.0
-gh release create s20.0 --title "s20.0" --notes "Season 20.0 config release"
-
-# Move live pointer to selected release
-git tag -fa live -m "Promote s20.0 to live" s20.0^{}
-git push origin refs/tags/live --force
-
 # Check which release tag contains a commit
 git tag --contains f5a42a2
 ```
