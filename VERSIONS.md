@@ -40,10 +40,10 @@ Source of truth: [`manifest.yaml` in csconfederation/plugin-deploy](https://gith
 
 | Plugin | Version | Templates | Notes |
 |--------|---------|-----------|-------|
-| MatchZy | [0.8.15-cssharp-1.0.375-csc.3](https://github.com/csconfederation/MatchZy/releases/tag/0.8.15-cssharp-1.0.375-csc.3) | All | Official CS# 1.0.375 API; ready/unready clan tags enabled in CSC configs |
+| MatchZy | [0.9.0](https://github.com/shobhit-pathak/MatchZy/releases/tag/0.9.0) | All | Upstream release, built against CS# 1.0.376 |
 | CSC Plugin | [0.3.0](https://github.com/csconfederation/csc-plugin/releases/tag/v0.3.0) | All | CSC server integration |
-| Metamod:Source | [2.0.0-git1469](https://github.com/alliedmodders/metamod-source/releases/tag/2.0.0.1469) | All | KHook-capable framework; built from `fa6f80e4662e5b96cc2e97722d812f374581dfd8`, the commit CS# 1.0.375 pins |
-| CounterStrikeSharp | [1.0.375](https://github.com/roflmuffin/CounterStrikeSharp/releases/tag/v1.0.375) | All | Upstream release for CS2 1.41.8.2 |
+| Metamod:Source | [2.0.0-git1469](https://github.com/alliedmodders/metamod-source/releases/tag/2.0.0.1469) | All | KHook-capable framework; built from `fa6f80e4662e5b96cc2e97722d812f374581dfd8`, the commit CS# 1.0.375 and 1.0.376 pin |
+| CounterStrikeSharp | [1.0.376](https://github.com/roflmuffin/CounterStrikeSharp/releases/tag/v1.0.376) | All | Upstream release for CS2 1.41.8.4 |
 
 ---
 
@@ -64,6 +64,22 @@ Template for new entries:
 - Description of change
 - **Breaking:** Description of breaking change (if any)
 -->
+
+### s21.8 — 2026-10-01
+
+**Plugins:**
+- MatchZy 0.9.0 (upstream) on all templates
+- CSC Plugin 0.3.0 on all templates
+- Metamod:Source 2.0.0-git1469 on all templates
+- CounterStrikeSharp 1.0.376 on all templates
+
+**Changes:**
+- Set the shared `sv_password` and `tv_password` in all six modes (#21). CSC-Web#380 and csc-discored#171 add the password to connect commands.
+- Add `sv_clantags_enabled 0` to `server.cfg` in all six modes. This also hides MatchZy's `[Team COACH]` tags.
+- Remove the fork-only `matchzy_clan_tags_enabled` from `MatchZy/config.cfg`.
+- Remove `bot_kick` from `MatchZy/warmup.cfg`, as upstream 0.9.0 did: it also kicks CSTV. MatchZy now kicks bots by user ID.
+- Pin `mp_halftime_duration "30"` (rulebook 6.1.5.1) in every mode except 1v1. MatchZy 0.9.0's `live.cfg` raised it from 15 to 20.
+- Add an empty `MatchZy/admins.json` to every mode. It overwrites the copy older MatchZy zips left on templates, which made the MatchZy author an admin.
 
 ### s21.7 — 2026-09-26
 
