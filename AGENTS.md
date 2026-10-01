@@ -33,12 +33,4 @@ Skip all automation for one commit: `SKIP_HEADER_STAMP=1 git commit ...`
 - `live` (mutable tag): what CSC-Core pulls for server deployment. `s{season}`: maintainer-managed season pointer.
 - Plugin versions (MatchZy, CSC Plugin, Metamod:Source, CounterStrikeSharp) are tracked in `VERSIONS.md`. The source of truth is `manifest.yaml` in the [plugin-deploy repo](https://github.com/csconfederation/plugin-deploy) (local checkout: `/home/debian/plugin-deploy/manifest.yaml`). **At every release**, read the manifest and sync its versions into both the Plugin Dependencies table and the new changelog entry in `VERSIONS.md` before tagging.
 
-Release + promotion:
-
-```bash
-git tag -a s20.0 -m "Season 20.0 release" && git push origin s20.0
-gh release create s20.0 --title "s20.0" --notes "Season 20.0 config release"
-# Promote to live deployment pointer
-git tag -fa live -m "Promote s20.0 to live" s20.0^{}
-git push origin refs/tags/live --force
-```
+Release + promotion is automatic: merging a PR to `main` that adds a new top `### s{season}.{revision} — <date>` entry to `VERSIONS.md` runs `.github/workflows/publish-release.yml`. It creates the tag and GitHub Release and force-moves `live` to it. **Don't tag or move `live` by hand.** A manual push races the workflow and makes its `live` push fail. To roll `live` back, re-point it by hand only after the workflow has finished.
