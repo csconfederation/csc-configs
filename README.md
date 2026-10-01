@@ -237,3 +237,16 @@ Plugin versions (MatchZy, CSC Plugin, Metamod:Source, CounterStrikeSharp) are tr
 * [AGENTS.md](AGENTS.md) — Detailed automation and script documentation
 * [VERSIONS.md](VERSIONS.md) — Release history, plugin dependencies, and tagging workflow
 * [modes.md](modes.md) — Auto-generated diff of settings across modes
+
+## Server passwords
+
+All modes set `sv_password` and `tv_password` to `SecureCSCPassword`. These are
+literal config values, separate from the administrative RCON password.
+
+Player and GOTV console commands include the shared password:
+
+```cfg
+connect Famas.csconfederation.com; password SecureCSCPassword
+```
+
+Deploy the Web and bot connect-command updates before promoting these configs to `live`.
