@@ -74,7 +74,7 @@ Template for new entries:
 - CounterStrikeSharp 1.0.376 on all templates
 
 **Changes:**
-- Scrim and Preseason ship a CounterStrikeSharp `core.json` that adds `.` as a public chat trigger. `.map` now goes through CSC Plugin's allowlist like `!map`. MatchZy 0.9.0 leaves any `.X` command that has a `css_X` twin to CounterStrikeSharp, so other dot commands run once, as before. The file is CounterStrikeSharp 1.0.376's `core.example.json` with that one change; re-check it on CounterStrikeSharp upgrades.
+- Scrim and Preseason ship a CounterStrikeSharp `core.json` that adds `.` as a public chat trigger. `.map` now goes through CSC Plugin's allowlist like `!map`. MatchZy 0.9.0 leaves any `.X` command that has a `css_X` twin to CounterStrikeSharp, so those run once, as before. Known side effects: `.reload_admins` runs twice (two denial replies), and a command typed with a leading space (` .ready`) is no longer handled. The file is CounterStrikeSharp 1.0.376's `core.example.json` with that one change; re-check it on CounterStrikeSharp upgrades.
 
 ### s21.9 — 2026-10-02
 
