@@ -41,7 +41,7 @@ Source of truth: [`manifest.yaml` in csconfederation/plugin-deploy](https://gith
 | Plugin | Version | Templates | Notes |
 |--------|---------|-----------|-------|
 | MatchZy | [0.9.0](https://github.com/shobhit-pathak/MatchZy/releases/tag/0.9.0) | All | Upstream release, built against CS# 1.0.376 |
-| CSC Plugin | [0.3.0](https://github.com/csconfederation/csc-plugin/releases/tag/v0.3.0) | All | CSC server integration |
+| CSC Plugin | [0.4.0](https://github.com/csconfederation/csc-plugin/releases/tag/v0.4.0) | All | CSC server integration |
 | Metamod:Source | [2.0.0-git1469](https://github.com/alliedmodders/metamod-source/releases/tag/2.0.0.1469) | All | KHook-capable framework; built from `fa6f80e4662e5b96cc2e97722d812f374581dfd8`, the commit CS# 1.0.375 and 1.0.376 pin |
 | CounterStrikeSharp | [1.0.376](https://github.com/roflmuffin/CounterStrikeSharp/releases/tag/v1.0.376) | All | Upstream release for CS2 1.41.8.4 |
 
@@ -64,6 +64,18 @@ Template for new entries:
 - Description of change
 - **Breaking:** Description of breaking change (if any)
 -->
+
+### s21.9 — 2026-10-03
+
+**Plugins:**
+- MatchZy 0.9.0 (upstream) on all templates
+- CSC Plugin 0.4.0 on all templates
+- Metamod:Source 2.0.0-git1469 on all templates
+- CounterStrikeSharp 1.0.376 on all templates
+
+**Changes:**
+- Limit Scrim and Preseason `MapAliases` to the s21 map pool (ancient, anubis, cache, dust2, inferno, mirage, nuke). CSC Plugin 0.4.0 treats them as the `!map` allowlist and rejects everything else.
+- CSC Plugin 0.4.0 is built for CounterStrikeSharp 1.0.376 (net10).
 
 ### s21.8 — 2026-10-01
 
