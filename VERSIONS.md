@@ -65,7 +65,7 @@ Template for new entries:
 - **Breaking:** Description of breaking change (if any)
 -->
 
-### s21.9 — 2026-10-03
+### s21.9 — 2026-10-02
 
 **Plugins:**
 - MatchZy 0.9.0 (upstream) on all templates
