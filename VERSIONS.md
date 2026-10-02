@@ -65,6 +65,17 @@ Template for new entries:
 - **Breaking:** Description of breaking change (if any)
 -->
 
+### s21.10 — 2026-10-02
+
+**Plugins:**
+- MatchZy 0.9.0 (upstream) on all templates
+- CSC Plugin 0.4.0 on all templates
+- Metamod:Source 2.0.0-git1469 on all templates
+- CounterStrikeSharp 1.0.376 on all templates
+
+**Changes:**
+- Scrim and Preseason ship a CounterStrikeSharp `core.json` that adds `.` as a public chat trigger. `.map` now goes through CSC Plugin's allowlist like `!map`. MatchZy 0.9.0 leaves any `.X` command that has a `css_X` twin to CounterStrikeSharp, so other dot commands run once, as before. The file is CounterStrikeSharp 1.0.376's `core.example.json` with that one change; re-check it on CounterStrikeSharp upgrades.
+
 ### s21.9 — 2026-10-02
 
 **Plugins:**
