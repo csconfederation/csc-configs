@@ -40,7 +40,7 @@ Source of truth: [`manifest.yaml` in csconfederation/plugin-deploy](https://gith
 
 | Plugin | Version | Templates | Notes |
 |--------|---------|-----------|-------|
-| MatchZy | [0.9.0](https://github.com/shobhit-pathak/MatchZy/releases/tag/0.9.0) | All | Upstream release, built against CS# 1.0.376 |
+| MatchZy | [0.9.1](https://github.com/shobhit-pathak/MatchZy/releases/tag/0.9.1) | All | Upstream release, built against CS# 1.0.376 |
 | CSC Plugin | [0.4.0](https://github.com/csconfederation/csc-plugin/releases/tag/v0.4.0) | All | CSC server integration |
 | Metamod:Source | [2.0.0-git1469](https://github.com/alliedmodders/metamod-source/releases/tag/2.0.0.1469) | All | KHook-capable framework; built from `fa6f80e4662e5b96cc2e97722d812f374581dfd8`, the commit CS# 1.0.375 and 1.0.376 pin |
 | CounterStrikeSharp | [1.0.376](https://github.com/roflmuffin/CounterStrikeSharp/releases/tag/v1.0.376) | All | Upstream release for CS2 1.41.8.4 |
@@ -64,6 +64,24 @@ Template for new entries:
 - Description of change
 - **Breaking:** Description of breaking change (if any)
 -->
+
+### s21.11 — 2026-10-03
+
+**Plugins:**
+- MatchZy 0.9.1 (upstream) on all templates (plugin-deploy#37)
+- CSC Plugin 0.4.0 on all templates
+- Metamod:Source 2.0.0-git1469 on all templates
+- CounterStrikeSharp 1.0.376 on all templates
+
+**Changes:**
+- Remove `matchzy_tech_pause_duration` and `matchzy_max_tech_pauses_allowed` from `MatchZy/config.cfg` in all six modes. MatchZy 0.9.1 removed them (they never had an effect), so they logged `Unknown command`.
+- Set MatchZy 0.9.1's new options explicitly in all six modes: `matchzy_tech_pause_flag ""`, `matchzy_max_tech_pauses 0`, `matchzy_tech_pause_time 0`, `matchzy_time_to_start 0`, `matchzy_time_to_start_veto 0`. Tech pauses stay unlimited by policy; admins enforce rulebook 6.1.6 only on abuse.
+- Combine and FA-Colo: `matchzy_ready_mode 1` with `matchzy_join_start_delay 60`. The match starts 60 seconds after all 10 players have joined, with no `.ready`. Someone leaving stops the countdown. Both play 5v5 only.
+- Combine and FA-Colo: `matchzy_minimum_ready_required` 8 → 5. In a loaded match it is the per-team minimum that join-ready mode and `.forceready` use (8 could never be met by a 5-player team). Neither mode runs unloaded (`matchzy_kick_when_no_match_loaded true`), where it is a total across all players.
+- Combine and FA-Colo: `matchzy_allow_force_ready false`. With join-ready, a force-readied team stays ready even if a player leaves during the countdown, so the match could start 4v5. With the old minimum of 8 it never worked there anyway. Admins can still `.forcestart`.
+- Match: `matchzy_minimum_ready_required` 8 → 4. A team of 4 can `.forceready` and play 4v5. A normal start is unchanged: every connected player on both sides must `.ready`, with at least 5 per side, so 4 of 5 ready doesn't start. Match never runs unloaded, where the value would be a total. Known MatchZy 0.9.1 gaps: a force-ready carries over to later BO3 maps (that team then needs only 4 ready), and coaches on a side count as players (so 4 players plus a coach can `.ready`, as before, and 3 plus a coach can `.forceready`).
+- Scrim, Preseason and 1v1 keep `.ready` and their current values.
+- **Requires MatchZy 0.9.1** for Combine and FA-Colo autostart. On 0.9.0 the new options log `Unknown command`, and both modes still use `.ready` with force-ready off.
 
 ### s21.10 — 2026-10-02
 
