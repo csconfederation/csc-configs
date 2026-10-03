@@ -10,25 +10,20 @@ failures=0
 offenders=()
 
 # Files that MUST have a footer echo
-# Only config.cfg is excluded (MatchZy plugin config, no say output needed)
+# MatchZy config.cfg is a plugin config; live_override.cfg only re-execs
+# gamemode_competitive_server.cfg, whose footer already reports the version.
 needs_footer() {
   local rel="$1"
   case "$rel" in
-    */cfg/MatchZy/config.cfg)
-      return 1 ;;  # skip - plugin config, no console output
+    */cfg/MatchZy/config.cfg|*/cfg/MatchZy/live_override.cfg)
+      return 1 ;;
     *)
       return 0 ;;  # enforce on all other .cfg files
   esac
 }
 
 footer_label() {
-  local mode="$1"
-  local base="$2"
-  if [[ "$base" == "live_override.cfg" ]]; then
-    printf 'CSC %s is Live ' "$mode"
-  else
-    printf 'CSC %s Config Loaded' "$mode"
-  fi
+  printf 'CSC %s Config Loaded' "$1"
 }
 
 check_file() {
@@ -66,6 +61,12 @@ check_file() {
   fi
   if ! head -n 12 "$f" | grep -qE '^// Last Updated:'; then
     echo "${RED}[lint] Missing Last Updated line in header:${RESET} $rel"
+    failures=$((failures+1)); offenders+=("$rel")
+  fi
+
+  # CS2 drops cfg lines over 510 characters ("Command too long... ignoring!")
+  if awk 'length($0) > 510 { found=1 } END { exit !found }' "$f"; then
+    echo "${RED}[lint] Line longer than 510 characters (CS2 ignores it):${RESET} $rel"
     failures=$((failures+1)); offenders+=("$rel")
   fi
 

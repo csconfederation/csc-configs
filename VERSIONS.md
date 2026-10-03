@@ -65,6 +65,19 @@ Template for new entries:
 - **Breaking:** Description of breaking change (if any)
 -->
 
+### s21.12 — 2026-10-03
+
+**Plugins:**
+- MatchZy 0.9.1 (upstream) on all templates
+- CSC Plugin 0.4.0 on all templates
+- Metamod:Source 2.0.0-git1469 on all templates
+- CounterStrikeSharp 1.0.376 on all templates
+
+**Changes:**
+- New colored `matchzy_match_start_message` in all six modes, printed when each map goes live: the mode, match ID with map number (`12345-0` is the first map; MatchZy's `{MAPNUMBER}` is 0-based), map, both team names, start time (server time), and the live reminders (no agent skins, `.tac`, `.tech`, `.stop`).
+- Remove the reminder box and the version footer from `MatchZy/live_override.cfg` in all six modes. It only re-execs `gamemode_competitive_server.cfg`, which prints its own version footer. The SOCD reminder is dropped because CS2 enforces it.
+- Tooling: `live_override.cfg` no longer needs a footer, and the linter rejects cfg lines over 510 characters. CS2 ignores longer lines with `Command too long... ignoring!` (tested on a template clone): a 544-character draft of this message was silently dropped.
+
 ### s21.11 — 2026-10-03
 
 **Plugins:**

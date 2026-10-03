@@ -16,23 +16,17 @@ sedi() {
   fi
 }
 
-# Check if file should have a footer (all except MatchZy/config.cfg)
+# Check if file should have a footer (all except MatchZy/config.cfg and live_override.cfg)
 needs_footer() {
   local file="$1"
   case "$file" in
-    */MatchZy/config.cfg) return 1 ;;
+    */MatchZy/config.cfg|*/MatchZy/live_override.cfg) return 1 ;;
     *) return 0 ;;
   esac
 }
 
 footer_label() {
-  local mode="$1"
-  local base="$2"
-  if [[ "$base" == "live_override.cfg" ]]; then
-    printf 'CSC %s is Live ' "$mode"
-  else
-    printf 'CSC %s Config Loaded' "$mode"
-  fi
+  printf 'CSC %s Config Loaded' "$1"
 }
 
 escape_regex() {
@@ -139,7 +133,6 @@ stamp_footer() {
   # Skip files that don't need footers
   needs_footer "$file" || return 0
 
-  # live_override.cfg uses an "is Live" footer; everything else uses "Config Loaded".
   # Match any prior CSC footer format for this filename and re-stamp it.
   sedi -E "s#^say \"> CSC .* \\| ${base_regex} \\| .* <\"\$#say \"> ${footer_text} | ${base} | ${VERSION} | ${DATE} <\"#g" "$file"
 }
