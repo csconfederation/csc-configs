@@ -76,10 +76,12 @@ Template for new entries:
 **Changes:**
 - Remove `matchzy_tech_pause_duration` and `matchzy_max_tech_pauses_allowed` from `MatchZy/config.cfg` in all six modes. MatchZy 0.9.1 removed them (they never had an effect), so they logged `Unknown command`.
 - Set MatchZy 0.9.1's new options explicitly in all six modes: `matchzy_tech_pause_flag ""`, `matchzy_max_tech_pauses 0`, `matchzy_tech_pause_time 0`, `matchzy_time_to_start 0`, `matchzy_time_to_start_veto 0`. Tech pauses stay unlimited by policy; admins enforce rulebook 6.1.6 only on abuse.
-- Combine: `matchzy_ready_mode 1` with `matchzy_join_start_delay 30`. The match starts 30 seconds after all 10 players have joined, with no `.ready`. Someone leaving stops the countdown. All other modes keep `matchzy_ready_mode 0`.
-- Combine: `matchzy_minimum_ready_required` 8 → 5. In a loaded match it is the per-team minimum that join-ready mode and `.forceready` use (8 could never be met by a 5-player team). Combines never run unloaded (`matchzy_kick_when_no_match_loaded true`), where it is a total across all players.
-- Combine: `matchzy_allow_force_ready false`. With join-ready, a force-readied team stays ready even if a player leaves during the countdown, so the match could start 4v5. With the old minimum of 8 it never worked in combines anyway. Admins can still `.forcestart`.
-- **Requires MatchZy 0.9.1** for Combine autostart. On 0.9.0 the new options log `Unknown command` and Combine still uses `.ready`.
+- Combine and FA-Colo: `matchzy_ready_mode 1` with `matchzy_join_start_delay 60`. The match starts 60 seconds after all 10 players have joined, with no `.ready`. Someone leaving stops the countdown. Both play 5v5 only.
+- Combine and FA-Colo: `matchzy_minimum_ready_required` 8 → 5. In a loaded match it is the per-team minimum that join-ready mode and `.forceready` use (8 could never be met by a 5-player team). Neither mode runs unloaded (`matchzy_kick_when_no_match_loaded true`), where it is a total across all players.
+- Combine and FA-Colo: `matchzy_allow_force_ready false`. With join-ready, a force-readied team stays ready even if a player leaves during the countdown, so the match could start 4v5. With the old minimum of 8 it never worked there anyway. Admins can still `.forcestart`.
+- Match: `matchzy_minimum_ready_required` 8 → 4. A team of 4 can `.forceready` and play 4v5. A normal start is unchanged: every connected player on both sides must `.ready`, with at least 5 per side, so 4 of 5 ready doesn't start. Match never runs unloaded, where the value would be a total.
+- Scrim, Preseason and 1v1 keep `.ready` and their current values.
+- **Requires MatchZy 0.9.1** for Combine and FA-Colo autostart. On 0.9.0 the new options log `Unknown command`, and both modes still use `.ready` with force-ready off.
 
 ### s21.10 — 2026-10-02
 
