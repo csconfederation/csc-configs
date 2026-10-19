@@ -5,10 +5,11 @@ CS2 game-server configs for the CSC league. Six modes live under `configs/<Mode>
 ## Setup
 
 ```bash
-./setup.sh   # chmod tools/*.sh + install pre-commit hook
+cp tools/pre-commit.hook .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
 ```
 
-Or manually: `cp tools/pre-commit.hook .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit`.
+Agents: don't run `./setup.sh`. It restamps every `.cfg`, which dirties the tree, and prompts before
+overwriting an existing hook.
 
 ## Tools
 
@@ -31,6 +32,6 @@ Skip all automation for one commit: `SKIP_HEADER_STAMP=1 git commit ...`
 - Config stamps: short commit hash (automatic, see above).
 - Release tags: `s{season}.{revision}` (e.g. `s12.1`), immutable, used for GitHub Releases.
 - `live` (mutable tag): what CSC-Core pulls for server deployment. `s{season}`: maintainer-managed season pointer.
-- Plugin versions (MatchZy, CSC Plugin, Metamod:Source, CounterStrikeSharp) are tracked in `VERSIONS.md`. The source of truth is `manifest.yaml` in the [plugin-deploy repo](https://github.com/csconfederation/plugin-deploy) (local checkout: `/home/debian/plugin-deploy/manifest.yaml`). **At every release**, read the manifest and sync its versions into both the Plugin Dependencies table and the new changelog entry in `VERSIONS.md` before tagging.
+- Plugin versions (MatchZy, CSC Plugin, Metamod:Source, CounterStrikeSharp) are tracked in `VERSIONS.md`. The source of truth is `manifest.yaml` in the [plugin-deploy repo](https://github.com/csconfederation/plugin-deploy). **At every release**, read the manifest and sync its versions into both the Plugin Dependencies table and the new changelog entry in `VERSIONS.md` before tagging.
 
 Release + promotion is automatic: merging a PR to `main` that adds a new top `### s{season}.{revision} — <date>` entry to `VERSIONS.md` runs `.github/workflows/publish-release.yml`. It creates the tag and GitHub Release and force-moves `live` to it. **Don't tag or move `live` by hand.** A manual push races the workflow and makes its `live` push fail. To roll `live` back, re-point it by hand only after the workflow has finished.
