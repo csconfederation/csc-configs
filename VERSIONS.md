@@ -40,10 +40,10 @@ Source of truth: [`manifest.yaml` in csconfederation/plugin-deploy](https://gith
 
 | Plugin | Version | Templates | Notes |
 |--------|---------|-----------|-------|
-| MatchZy | [0.9.1](https://github.com/shobhit-pathak/MatchZy/releases/tag/0.9.1) | All | Upstream release, built against CS# 1.0.376 |
+| MatchZy | [0.9.2](https://github.com/shobhit-pathak/MatchZy/releases/tag/0.9.2) | All | Upstream release, built against CS# 1.0.376 |
 | CSC Plugin | [0.4.0](https://github.com/csconfederation/csc-plugin/releases/tag/v0.4.0) | All | CSC server integration |
-| Metamod:Source | [2.0.0-git1469](https://github.com/alliedmodders/metamod-source/releases/tag/2.0.0.1469) | All | KHook-capable framework; built from `fa6f80e4662e5b96cc2e97722d812f374581dfd8`, the commit CS# 1.0.375 and 1.0.376 pin |
-| CounterStrikeSharp | [1.0.376](https://github.com/roflmuffin/CounterStrikeSharp/releases/tag/v1.0.376) | All | Upstream release for CS2 1.41.8.4 |
+| Metamod:Source | [2.0.0-git1483](https://github.com/alliedmodders/metamod-source/releases/tag/2.0.0.1483) | All | KHook-capable framework; built from `170058a2f0dbd58106b7c76bfe88a94672295356`, ahead of the `fa6f80e` (1469) that CS# 1.0.377 pins |
+| CounterStrikeSharp | [1.0.377](https://github.com/roflmuffin/CounterStrikeSharp/releases/tag/v1.0.377) | All | Upstream release |
 
 ---
 
@@ -64,6 +64,21 @@ Template for new entries:
 - Description of change
 - **Breaking:** Description of breaking change (if any)
 -->
+
+### s21.13 — 2026-10-20
+
+**Plugins:**
+- MatchZy 0.9.2 (upstream) on all templates
+- CSC Plugin 0.4.0 on all templates
+- Metamod:Source 2.0.0-git1483 on all templates
+- CounterStrikeSharp 1.0.377 on all templates
+
+**Changes:**
+- No config file changes. Plugin versions follow plugin-deploy's manifest.
+- MatchZy 0.9.2 fixes round backups and restores (`.stop`, `matchzy_loadbackup`). The October 14 CS2 update rejects the absolute backup paths 0.9.1 used.
+- MatchZy now runs `MatchZy/live_override.cfg` itself, right after `live.cfg`, and no longer ships it. The CSC copy still re-execs `gamemode_competitive_server.cfg` at the same point.
+- Metamod 1483 is newer than the 1469 build CS# 1.0.377 pins; the plugin API is unchanged.
+- CounterStrikeSharp 1.0.377 only updates gamedata. Its `core.example.json` is unchanged, so the Scrim and Preseason `core.json` stays as is.
 
 ### s21.12 — 2026-10-03
 
