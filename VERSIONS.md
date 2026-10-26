@@ -42,8 +42,8 @@ Source of truth: [`manifest.yaml` in csconfederation/plugin-deploy](https://gith
 |--------|---------|-----------|-------|
 | MatchZy | [0.9.2](https://github.com/shobhit-pathak/MatchZy/releases/tag/0.9.2) | All | Upstream release, built against CS# 1.0.376 |
 | CSC Plugin | [0.4.0](https://github.com/csconfederation/csc-plugin/releases/tag/v0.4.0) | All | CSC server integration |
-| Metamod:Source | [2.0.0-git1483](https://github.com/alliedmodders/metamod-source/releases/tag/2.0.0.1483) | All | KHook-capable framework; built from `170058a2f0dbd58106b7c76bfe88a94672295356`, ahead of the `fa6f80e` (1469) that CS# 1.0.377 pins |
-| CounterStrikeSharp | [1.0.377](https://github.com/roflmuffin/CounterStrikeSharp/releases/tag/v1.0.377) | All | Upstream release |
+| Metamod:Source | [2.0.0-git1483](https://github.com/alliedmodders/metamod-source/releases/tag/2.0.0.1483) | All | KHook-capable framework; built from `170058a2f0dbd58106b7c76bfe88a94672295356`, ahead of the `fa6f80e` (1469) that CS# 1.0.378 pins |
+| CounterStrikeSharp | [1.0.378](https://github.com/roflmuffin/CounterStrikeSharp/releases/tag/v1.0.378) | All | Upstream release |
 
 ---
 
@@ -64,6 +64,19 @@ Template for new entries:
 - Description of change
 - **Breaking:** Description of breaking change (if any)
 -->
+
+### s21.14 — 2026-10-26
+
+**Plugins:**
+- MatchZy 0.9.2 (upstream) on all templates
+- CSC Plugin 0.4.0 on all templates
+- Metamod:Source 2.0.0-git1483 on all templates
+- CounterStrikeSharp 1.0.378 on all templates
+
+**Changes:**
+- No config file changes. Plugin versions follow plugin-deploy's manifest.
+- CounterStrikeSharp 1.0.378 updates gamedata and schemas for CS2 1.41.9.2. Its `core.example.json` is unchanged, so the Scrim and Preseason `core.json` stays as is.
+- Its Metamod pin is unchanged (1469), so Metamod 1483 stays.
 
 ### s21.13 — 2026-10-20
 
