@@ -65,6 +65,18 @@ Template for new entries:
 - **Breaking:** Description of breaking change (if any)
 -->
 
+### s21.15 — 2026-10-27
+
+**Plugins:**
+- MatchZy 0.9.2 (upstream) on all templates
+- CSC Plugin 0.4.0 on all templates
+- Metamod:Source 2.0.0-git1483 on all templates
+- CounterStrikeSharp 1.0.378 on all templates
+
+**Changes:**
+- Set `sv_grenade_trajectory_time_spectator "0"` in `gamemode_competitive_server.cfg` for all six modes, so dead teammates no longer see grenade trails that reveal enemy positions. The cvar is server-wide, so in-server casters/observers lose trails too. Not yet tested on a live server.
+- No plugin changes.
+
 ### s21.14 — 2026-10-26
 
 **Plugins:**
