@@ -65,6 +65,21 @@ Template for new entries:
 - **Breaking:** Description of breaking change (if any)
 -->
 
+### s21.16 — 2026-10-28
+
+**Plugins:**
+- MatchZy 0.9.2 (upstream) on all templates
+- CSC Plugin 0.4.0 on all templates
+- Metamod:Source 2.0.0-git1483 on all templates
+- CounterStrikeSharp 1.0.378 on all templates
+
+**Changes:**
+- Timeouts follow the new rule 6.1.6 in Match, Scrim, Combine, Preseason and FA-Colo (1v1 still has none).
+- **Breaking:** tactical timeouts drop from 4 per map to 3 in regulation, plus 1 per overtime. Unused ones don't carry over (`mp_team_timeout_ot_add_once 1`, `mp_team_timeout_ot_add_each 1`, `mp_team_timeout_ot_max 1`, per Valve's cvar help on a dev clone).
+- **Breaking:** each team gets 5 tech pauses per map (`matchzy_max_tech_pauses 5`); `.tech` is refused after that. Admin pauses (`.forcepause`) don't count.
+- `matchzy_tech_pause_time 600`: after a single tech pause has run 10 minutes, either team can `.unpause` alone. MatchZy times each pause separately, so a team over 10 minutes in total across several pauses still needs admins to enforce 6.1.6.3.
+- No plugin changes.
+
 ### s21.15 — 2026-10-27
 
 **Plugins:**
