@@ -74,8 +74,9 @@ Template for new entries:
 - CounterStrikeSharp 1.0.379 on all templates
 
 **Changes:**
-- `matchzy_max_tech_pause_time 600` in Match, Scrim, Combine, Preseason and FA-Colo: once a team's tech pauses on a map total 10 minutes, either team can `.unpause` alone (rules 6.1.6.2 and 6.1.6.3). Admin pauses don't count. Needs the CSC MatchZy build; upstream logs it as an unknown command.
-- `matchzy_tech_pause_time 600` stays, so a rollback to upstream MatchZy still enforces it per pause.
+- `matchzy_max_tech_pause_time 600` in Match, Scrim, Combine, Preseason and FA-Colo: once a team's tech pauses on a map total 10 minutes, either team can `.unpause` alone (rules 6.1.6.2 and 6.1.6.3). A team with pauses left can still call one, which either team can end at once. Admin pauses don't count. Needs the CSC MatchZy build; upstream logs it as an unknown command.
+- **Breaking:** `matchzy_tech_pause_time 0` (was 600): no per-pause limit; until a team's total runs out, both teams must `.unpause`.
+- Ready clan tags are back in all six modes: `matchzy_clan_tags_enabled true` shows [Ready]/[Unready] in warmup. Live tags stay blank (match configs set no team tags), which also clears players' own tags. Removed `sv_clantags_enabled 0`, so spectators' own tags and MatchZy's `[Team COACH]` tags show again.
 - MatchZy 0.9.2-csc.1 also resets `.forceready` between series maps, leaves coaches out of ready-up, keeps spaces in team names, and sends `player_connect`/`player_say` events.
 
 ### s21.16 — 2026-11-04
