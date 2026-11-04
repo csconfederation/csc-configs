@@ -40,7 +40,7 @@ Source of truth: [`manifest.yaml` in csconfederation/plugin-deploy](https://gith
 
 | Plugin | Version | Templates | Notes |
 |--------|---------|-----------|-------|
-| MatchZy | [0.9.2](https://github.com/shobhit-pathak/MatchZy/releases/tag/0.9.2) | All | Upstream release, built against CS# 1.0.376 |
+| MatchZy | [0.9.2-csc.1](https://github.com/csconfederation/MatchZy/releases/tag/0.9.2-csc.1) | All | CSC fork (private) of upstream 0.9.2, built against CS# 1.0.379 |
 | CSC Plugin | [0.4.0](https://github.com/csconfederation/csc-plugin/releases/tag/v0.4.0) | All | CSC server integration |
 | Metamod:Source | [2.0.0-git1483](https://github.com/alliedmodders/metamod-source/releases/tag/2.0.0.1483) | All | KHook-capable framework; built from `170058a2f0dbd58106b7c76bfe88a94672295356`, the commit CS# 1.0.379 pins |
 | CounterStrikeSharp | [1.0.379](https://github.com/roflmuffin/CounterStrikeSharp/releases/tag/v1.0.379) | All | Upstream release |
@@ -64,6 +64,20 @@ Template for new entries:
 - Description of change
 - **Breaking:** Description of breaking change (if any)
 -->
+
+### s21.17 — 2026-11-04
+
+**Plugins:**
+- MatchZy 0.9.2-csc.1 (CSC fork) on all templates
+- CSC Plugin 0.4.0 on all templates
+- Metamod:Source 2.0.0-git1483 on all templates
+- CounterStrikeSharp 1.0.379 on all templates
+
+**Changes:**
+- `matchzy_max_tech_pause_time 600` in Match, Scrim, Combine, Preseason and FA-Colo: once a team's tech pauses on a map total 10 minutes, either team can `.unpause` alone (rules 6.1.6.2 and 6.1.6.3). A team with pauses left can still call one, which either team can end at once. Admin pauses don't count. Needs the CSC MatchZy build; upstream logs it as an unknown command.
+- **Breaking:** `matchzy_tech_pause_time 0` (was 600): no per-pause limit; until a team's total runs out, both teams must `.unpause`.
+- Ready clan tags are back: `matchzy_clan_tags_enabled true` in all six modes shows [Ready]/[Unready] in warmup in Match, Scrim, Preseason and 1v1 (Combine and FA-Colo use join ready mode, so no ready tags). Players' tags stay blank live because match configs set no team tags. Removed `sv_clantags_enabled 0`, so spectators keep their own tags and coaches show `[Team COACH]` again, as before s21.8.
+- MatchZy 0.9.2-csc.1 also resets `.forceready` between series maps, leaves coaches out of ready-up, keeps spaces in team names, and sends `player_connect`/`player_say` events.
 
 ### s21.16 — 2026-11-04
 
